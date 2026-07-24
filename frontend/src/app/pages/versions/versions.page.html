@@ -1,0 +1,11 @@
+<ion-header class="versions-header">
+  <app-header class="header" title="Notes de version" [showBack]="true" (back)="goBack()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="versions-content">
+  <div class="versions-list">
+    @for (note of notes; track note.version; let i = $index) {
+      <app-version-note class="versions-note" [note]="note" [style.animationDelay.ms]="i * 40"></app-version-note>
+    }
+  </div>
+</ion-content>

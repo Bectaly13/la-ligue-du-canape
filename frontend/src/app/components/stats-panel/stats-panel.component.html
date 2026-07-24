@@ -1,0 +1,36 @@
+@if (competitions().length) {
+  <app-competition-selector
+    class="stats-panel-competition"
+    [competitions]="competitions()"
+    [selectedId]="selectedId()"
+    (selectedIdChange)="onCompetitionChange($event)"
+  ></app-competition-selector>
+}
+
+@if (stats(); as s) {
+  <div class="stats-panel-stats">
+    <div class="stats-panel-stat">
+      <span class="stats-panel-stat-label">{{ plural(s.predictions, "Prono") }}</span>
+      <span class="stats-panel-stat-value"><app-count-up [value]="s.predictions"></app-count-up></span>
+    </div>
+    <div class="stats-panel-stat">
+      <span class="stats-panel-stat-label">{{ plural(s.correct, "Bon") }}</span>
+      <span class="stats-panel-stat-value"><app-count-up [value]="s.correct"></app-count-up></span>
+    </div>
+    <div class="stats-panel-stat">
+      <span class="stats-panel-stat-label">{{ plural(s.exact, "Exact") }}</span>
+      <span class="stats-panel-stat-value"><app-count-up [value]="s.exact"></app-count-up></span>
+    </div>
+  </div>
+
+  <div class="stats-panel-highlights">
+    <div class="stats-panel-points">
+      <span class="stats-panel-points-label">{{ plural(s.points, "Point") }}</span>
+      <span class="stats-panel-points-value"><app-count-up [value]="s.points"></app-count-up></span>
+    </div>
+    <div class="stats-panel-rank">
+      <span class="stats-panel-rank-label">Classement</span>
+      <span class="stats-panel-rank-value"><app-count-up [value]="s.rank"></app-count-up><span class="stats-panel-rank-total"> / <app-count-up [value]="s.players"></app-count-up></span></span>
+    </div>
+  </div>
+}

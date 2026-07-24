@@ -1,0 +1,87 @@
+// Fond assombri couvrant l'écran ; la carte apparaît en fondu + léger zoom.
+.confirm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  animation: confirm-modal-fade 0.2s ease both;
+}
+
+.confirm-modal-card {
+  width: 100%;
+  max-width: 340px;
+  padding: 20px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  box-shadow: var(--app-shadow-strong);
+  animation: confirm-modal-pop 0.22s ease both;
+}
+
+.confirm-modal-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.confirm-modal-message {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--app-text-muted);
+}
+
+.confirm-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-modal-btn {
+  flex: 1;
+  padding: 11px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+}
+
+.confirm-modal-cancel {
+  color: var(--app-text);
+  background: var(--app-surface-2);
+}
+
+.confirm-modal-confirm {
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border-color: transparent;
+}
+
+.confirm-modal-danger {
+  color: var(--app-on-danger);
+  background: var(--app-danger);
+}
+
+@keyframes confirm-modal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes confirm-modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

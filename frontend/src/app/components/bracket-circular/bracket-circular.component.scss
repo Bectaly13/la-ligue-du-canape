@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.circle {
+  position: relative;
+  margin-top: 8px;
+}
+
+// Zone d'exploration : gestes captés ici (touch-action: none → pas de scroll de page pendant le pan/zoom).
+// Hauteur = espace disponible entre l'en-tête/segments et la navbar (contrôles jamais cachés par la navbar).
+.circle-viewport {
+  position: relative;
+  width: 100%;
+  height: 62vh; // fallback si 100dvh non supporté
+  height: max(300px, calc(100dvh - var(--navbar-height) - var(--safe-bottom) - var(--safe-top) - 260px));
+  overflow: hidden;
+  touch-action: none;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+}
+
+// Toile carrée (côté = largeur de la zone). Positions des drapeaux/lignes en % de ce carré.
+.circle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  transform-origin: 0 0;
+}
+
+.circle-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.circle-lines line {
+  stroke: var(--app-border);
+  stroke-width: 0.4;
+}
+
+// Un drapeau rond, positionné par son centre.
+.circle-node {
+  position: absolute;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: var(--app-radius-full);
+  overflow: hidden;
+  background: var(--app-surface-2);
+  border: 2px solid var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+
+.circle-flag {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Vainqueur au centre : mis en avant (accent + halo), au-dessus des autres.
+.circle-node-champion {
+  z-index: 2;
+  border-color: var(--app-accent);
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+}
+
+// Contrôles de zoom, en surimpression en bas à droite.
+.circle-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.circle-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 20px;
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-full);
+  box-shadow: var(--app-shadow);
+}

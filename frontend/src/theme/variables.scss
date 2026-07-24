@@ -1,0 +1,112 @@
+/* =========================================================================
+   Variables de thème — MPP (pronos)
+   -------------------------------------------------------------------------
+   Trois thèmes, appliqués par ThemeService via une classe sur <body> :
+   - theme-default : identité de l'app (bleu affirmé)   [thème par défaut]
+   - theme-light   : clair neutre
+   - theme-dark    : sombre
+   Aucune couleur en dur ailleurs : tout passe par ces variables.
+   ========================================================================= */
+
+/* ----- Constantes indépendantes du thème ----- */
+:root {
+  /* Safe areas (encoche / barres système) */
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+
+  /* Accent (identité : bleu) */
+  --app-accent: #3B82F6;
+  --app-accent-strong: #2563EB;
+  --app-on-accent: #FFFFFF;
+  --app-accent-gradient: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+
+  /* Rayons d'arrondi (lignes douces) */
+  --app-radius-sm: 12px;
+  --app-radius: 18px;
+  --app-radius-lg: 26px;
+  --app-radius-full: 999px;
+
+  /* Transitions (animations fluides) */
+  --app-transition: 200ms ease;
+
+  /* Hauteur de la navbar basse (hors safe area) : sert à poser des éléments juste au-dessus
+     (ex. la barre de saisie du chat) et à réserver l'espace bas du contenu. */
+  --navbar-height: 58px;
+
+  /* Couleurs des médailles du podium (classement) — universelles, identiques à tous les thèmes. */
+  --rank-gold: #F5B301;
+  --rank-silver: #A7B0BE;
+  --rank-bronze: #CD7F45;
+}
+
+/* Header & navbar : dérivés des variables de thème. Déclarés sur <body> (et NON :root) pour que
+   var(--app-surface) se résolve avec le thème ACTIF — les classes theme-* sont posées sur <body>.
+   (Sur :root, ils resteraient figés sur le thème par défaut.) */
+body {
+  --header-background: var(--app-surface);
+  --header-text: var(--app-text);
+  --header-border: var(--app-border);
+  --navbar-background: var(--app-surface);
+  --navbar-border: var(--app-border);
+  --navbar-icon: var(--app-text-muted);
+  --navbar-icon-active: var(--app-accent);
+}
+
+/* ----- Thème défaut : identité bleue (posé aussi sur :root pour éviter le flash
+   avant que ThemeService n'applique la classe) ----- */
+:root,
+body.theme-default {
+  --app-background: radial-gradient(circle at 50% 0%, #E8F0FF 0%, #EAF1FB 42%, #F2F6FC 100%);
+  --app-status-bar: #E8F0FF; /* couleur unie pour la barre d'état (pas un dégradé) */
+  --app-surface: #FFFFFF;
+  --app-surface-2: #F3F7FF;
+  --app-text: #0F1E3D;
+  --app-text-muted: #5B6B8C;
+  --app-border: #D8E3F5;
+
+  --app-accent-soft: rgba(59, 130, 246, 0.12);
+  --app-danger: #EF4444;
+  --app-on-danger: #FFFFFF;
+
+  --app-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+  --app-shadow-strong: 0 10px 30px rgba(37, 99, 235, 0.18);
+  --app-accent-glow: 0 0 20px rgba(59, 130, 246, 0.35); /* glow bleu marqué */
+}
+
+/* ----- Thème clair neutre ----- */
+body.theme-light {
+  --app-background: #F1F5F9;
+  --app-status-bar: #F1F5F9;
+  --app-surface: #FFFFFF;
+  --app-surface-2: #F8FAFC;
+  --app-text: #0F172A;
+  --app-text-muted: #64748B;
+  --app-border: #E2E8F0;
+
+  --app-accent-soft: rgba(59, 130, 246, 0.10);
+  --app-danger: #EF4444;
+  --app-on-danger: #FFFFFF;
+
+  --app-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --app-shadow-strong: 0 8px 28px rgba(15, 23, 42, 0.12);
+  --app-accent-glow: 0 0 0 rgba(59, 130, 246, 0); /* glow quasi nul en clair */
+}
+
+/* ----- Thème sombre ----- */
+body.theme-dark {
+  --app-background: #0B1220;
+  --app-status-bar: #0B1220;
+  --app-surface: #131C2E;
+  --app-surface-2: #0F1829;
+  --app-text: #E9EEF5;
+  --app-text-muted: #8CA0BA;
+  --app-border: #223049;
+
+  --app-accent-soft: rgba(96, 165, 250, 0.16);
+  --app-danger: #F87171;
+  --app-on-danger: #FFFFFF;
+
+  --app-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --app-shadow-strong: 0 10px 32px rgba(0, 0, 0, 0.55);
+  --app-accent-glow: 0 0 18px rgba(59, 130, 246, 0.45); /* glow marqué en sombre */
+}

@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+// Zone défilable horizontalement (l'arbre peut être plus large que l'écran).
+.bracket-scroll {
+  overflow-x: auto;
+  padding: 4px 0 8px;
+  scrollbar-width: none;
+}
+
+.bracket-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.bracket {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  min-width: 100%;
+}
+
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+}
+
+.bracket-round-title {
+  height: 18px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--app-text-muted);
+}
+
+.bracket-cells {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Chaque cellule occupe une part égale de la colonne et centre son match → alignement automatique
+// des tours successifs (une cellule de tour N couvre la hauteur de ses 2 cellules sources).
+.bracket-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 8px 22px;
+}
+
+.bracket-node {
+  position: relative;
+}
+
+// --- Connecteurs ---
+// Sortant : trait horizontal à droite de chaque match (tous les tours sauf le dernier).
+.bracket-round:not(:last-child) .bracket-cell::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 22px;
+  border-top: 2px solid var(--app-border);
+}
+
+// Entrant : trait vertical à gauche, reliant les centres des deux matchs sources (25 % et 75 %).
+.bracket-round:not(:first-child) .bracket-cell::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  border-left: 2px solid var(--app-border);
+}
+
+// Entrant : petit trait horizontal du connecteur vertical jusqu'au match (au centre de la cellule).
+.bracket-round:not(:first-child) .bracket-node::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -22px;
+  width: 22px;
+  border-top: 2px solid var(--app-border);
+}
+
+// Transition « tirée au sort » : aucun connecteur. On retire le trait SORTANT du tour amont
+// (bracket-round-noout) et les traits ENTRANTS du tour aval (bracket-round-noin).
+.bracket-round-noout .bracket-cell::after {
+  display: none;
+}
+.bracket-round-noin .bracket-cell::before,
+.bracket-round-noin .bracket-node::before {
+  display: none;
+}
+
+// --- Petite finale (à part, sans connecteurs) ---
+.bracket-third {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--app-border);
+}
+
+.bracket-third-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--app-text-muted);
+}

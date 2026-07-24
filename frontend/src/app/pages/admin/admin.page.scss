@@ -1,0 +1,119 @@
+.admin-header {
+  box-shadow: none;
+}
+
+.admin-content {
+  --background: var(--app-background);
+  --padding-bottom: calc(16px + var(--safe-bottom));
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 0;
+}
+
+// Le sélecteur, posé dans le flux du conteneur (l'espacement vient du gap).
+.admin-competition {
+  display: block;
+}
+
+// Effet « vague » : chaque élément apparaît en fondu + léger mouvement, décalé via un animation-delay inline.
+.admin-fade {
+  animation: admin-in 380ms ease both;
+}
+
+// Carte du message d'accueil : action GLOBALE (hors compétition) → style distinct, teinté accent.
+.admin-global-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  background: var(--app-accent-soft);
+  border: 1px solid var(--app-accent);
+  border-radius: var(--app-radius);
+}
+
+// Icône du message d'accueil : pastille accent pleine, pour trancher avec les cartes de compétition.
+.admin-global-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  font-size: 22px;
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border-radius: var(--app-radius-full);
+  box-shadow: var(--app-accent-glow);
+}
+
+// Carte-bouton vers un outil admin (d'autres viendront : saisie des résultats…).
+.admin-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.admin-card-icon {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: var(--app-accent);
+}
+
+.admin-card-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.admin-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.admin-card-sub {
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+// Indicateur de matchs à valider (masqué si 0).
+.admin-card-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-on-accent);
+  background: var(--app-accent);
+  border-radius: var(--app-radius-full);
+  white-space: nowrap;
+}
+
+.admin-card-chevron {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: var(--app-text-muted);
+}
+
+@keyframes admin-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

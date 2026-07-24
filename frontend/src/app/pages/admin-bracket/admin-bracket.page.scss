@@ -1,0 +1,105 @@
+.admin-bracket-header {
+  box-shadow: none;
+}
+
+.admin-bracket-content {
+  --background: var(--app-background);
+  --padding-bottom: calc(16px + var(--safe-bottom));
+}
+
+.admin-bracket-competition {
+  display: block;
+  padding: 12px 16px 0;
+}
+
+// Effet « vague » : chaque élément apparaît en fondu + léger mouvement, décalé via un animation-delay inline.
+.admin-bracket-fade {
+  animation: admin-bracket-in 380ms ease both;
+}
+
+.admin-bracket-info {
+  margin: 12px 16px 0;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.admin-bracket-error {
+  margin: 8px 16px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-danger);
+}
+
+.admin-bracket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 0;
+}
+
+.admin-bracket-tie {
+  padding: 12px 14px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.admin-bracket-tie-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.admin-bracket-tie-when {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--app-text-muted);
+  text-transform: capitalize;
+}
+
+.admin-bracket-slots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+// Sélecteur d'équipe par case (HTML classique stylé via nos variables).
+.admin-bracket-select {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--app-text);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  outline: none;
+}
+
+.admin-bracket-vs {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+.admin-bracket-empty {
+  display: block;
+  margin-top: 24px;
+}
+
+@keyframes admin-bracket-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

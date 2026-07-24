@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <a class="navbar-item" routerLink="/home" routerLinkActive="navbar-item-active">
+    <ion-icon class="navbar-icon" name="home-outline"></ion-icon>
+    <span class="navbar-label">Accueil</span>
+  </a>
+
+  <a class="navbar-item" routerLink="/matches" routerLinkActive="navbar-item-active">
+    <ion-icon class="navbar-icon" name="football-outline"></ion-icon>
+    <span class="navbar-label">Matchs</span>
+  </a>
+
+  <a class="navbar-item" routerLink="/leaderboard" routerLinkActive="navbar-item-active">
+    <ion-icon class="navbar-icon" name="trophy-outline"></ion-icon>
+    <span class="navbar-label">Classement</span>
+  </a>
+
+  <a class="navbar-item" routerLink="/chat" routerLinkActive="navbar-item-active">
+    <span class="navbar-iconwrap">
+      <ion-icon class="navbar-icon" name="chatbubbles-outline"></ion-icon>
+      @if (hasUnread) {
+        <span class="navbar-badge"></span>
+      }
+    </span>
+    <span class="navbar-label">Chat</span>
+  </a>
+
+  <a class="navbar-item" routerLink="/profile" routerLinkActive="navbar-item-active">
+    <ion-icon class="navbar-icon" name="person-circle-outline"></ion-icon>
+    <span class="navbar-label">Profil</span>
+  </a>
+</nav>

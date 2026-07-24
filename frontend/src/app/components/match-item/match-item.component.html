@@ -1,0 +1,44 @@
+<div class="match-item" [class.match-item-clickable]="canPredict()" (click)="onPredict()">
+  <div class="match-item-top">
+    <span class="match-item-type">{{ label() }}</span>
+    <span class="match-item-time">
+      @if (showDate()) {
+        <span class="match-item-date">{{ dateLabel() }}</span> ·
+      }
+      {{ time() }}
+    </span>
+  </div>
+
+  <div class="match-item-body">
+    <!-- Moitié gauche : équipe 1 -->
+    <div class="match-item-team match-item-team-left">
+      <app-flag class="match-item-flag" [slug]="match().team1?.slug ?? null" [name]="match().team1?.name ?? ''"></app-flag>
+      <span class="match-item-name">{{ match().team1?.name }}</span>
+    </div>
+
+    <!-- Centre : scores. Toujours présent (invisible si le match n'est pas terminé) pour une taille de carte uniforme. -->
+    <div class="match-item-scores" [class.match-item-scores-hidden]="!isFinished()">
+      <div class="match-item-score">
+        <span class="match-item-score-main">{{ isFinished() ? match().score1 : 0 }}</span>
+        <span class="match-item-pen" [class.match-item-pen-hidden]="!hasPenalties()">({{ match().penalty_score1 }})</span>
+      </div>
+      <span class="match-item-score-sep">-</span>
+      <div class="match-item-score">
+        <span class="match-item-score-main">{{ isFinished() ? match().score2 : 0 }}</span>
+        <span class="match-item-pen" [class.match-item-pen-hidden]="!hasPenalties()">({{ match().penalty_score2 }})</span>
+      </div>
+    </div>
+
+    <!-- Moitié droite : équipe 2 -->
+    <div class="match-item-team match-item-team-right">
+      <span class="match-item-name">{{ match().team2?.name }}</span>
+      <app-flag class="match-item-flag" [slug]="match().team2?.slug ?? null" [name]="match().team2?.name ?? ''"></app-flag>
+    </div>
+  </div>
+
+  @if (canPredict()) {
+    <span class="match-item-predict">Pronostiquer</span>
+  } @else if (awaitingResult()) {
+    <span class="match-item-await">En attente du résultat</span>
+  }
+</div>

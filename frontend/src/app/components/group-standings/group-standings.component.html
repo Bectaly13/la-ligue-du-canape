@@ -1,0 +1,44 @@
+<div class="group-standings">
+  <div class="group-standings-head">
+    <span class="group-standings-pos"></span>
+    <span class="group-standings-team">Équipe</span>
+    <span class="group-standings-num">J</span>
+    <span class="group-standings-num">Diff</span>
+    <span class="group-standings-num group-standings-pts">Pts</span>
+    <span class="group-standings-chevron-cell"></span>
+  </div>
+
+  @for (row of standings(); track row.team.id) {
+    <button class="group-standings-row" type="button" (click)="toggle(row.team.id)">
+      <span class="group-standings-pos">{{ row.rank }}</span>
+      <span class="group-standings-team">
+        <app-flag class="group-standings-flag" [slug]="row.team.slug" [name]="row.team.name"></app-flag>
+        <span class="group-standings-teamname">{{ row.team.name }}</span>
+      </span>
+      <span class="group-standings-num">{{ row.played }}</span>
+      <span class="group-standings-num">{{ signedDiff(row.goal_diff) }}</span>
+      <span class="group-standings-num group-standings-pts">{{ row.points }}</span>
+      <ion-icon
+        class="group-standings-chevron"
+        [class.group-standings-chevron-open]="expandedId === row.team.id"
+        name="chevron-down"
+      ></ion-icon>
+    </button>
+
+    <!-- Volet déroulant : stats avancées de l'équipe (accordéon qui pousse le reste vers le bas). -->
+    <div class="group-standings-detailwrap" [class.group-standings-detailwrap-open]="expandedId === row.team.id">
+      <div class="group-standings-detailclip">
+        <div class="group-standings-detail">
+          <div class="group-standings-detail-line">
+            <span class="group-standings-detail-label">Bilan</span>
+            <span class="group-standings-detail-value">{{ row.won }} V · {{ row.drawn }} N · {{ row.lost }} D</span>
+          </div>
+          <div class="group-standings-detail-line">
+            <span class="group-standings-detail-label">Buts</span>
+            <span class="group-standings-detail-value">{{ row.goals_for }} {{ plural(row.goals_for, "marqué") }} · {{ row.goals_against }} {{ plural(row.goals_against, "encaissé") }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

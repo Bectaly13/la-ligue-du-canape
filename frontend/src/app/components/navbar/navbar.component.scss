@@ -1,0 +1,57 @@
+.navbar {
+  /* Toujours collée en bas ; son fond s'étend sous la safe area système (padding-bottom) → pas de « gap ». */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 10px;
+  padding-bottom: calc(10px + var(--safe-bottom));
+  background: var(--navbar-background);
+  border-top: 1px solid var(--navbar-border);
+}
+
+.navbar-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--navbar-icon);
+  text-decoration: none;
+}
+
+.navbar-item-active {
+  color: var(--navbar-icon-active);
+}
+
+// Conteneur de l'icône chat : référence de positionnement pour la pastille de non-lus.
+.navbar-iconwrap {
+  position: relative;
+  display: inline-flex;
+}
+
+// Pastille rouge « messages non lus », en haut à droite de l'icône chat.
+.navbar-badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--app-danger);
+  border: 1.5px solid var(--navbar-background);
+}
+
+.navbar-icon {
+  font-size: 22px;
+}
+
+.navbar-label {
+  font-size: 11px;
+  font-weight: 600;
+}

@@ -1,0 +1,56 @@
+<ion-header class="user-header">
+  <app-header class="header" [title]="member?.name || 'Profil'" [showBack]="true" (back)="goBack()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="user-content">
+  @if (!loading && member) {
+
+    <!-- Section profil : card identité en lecture seule -->
+    <section class="user-section">
+      <app-identity-card class="user-identity-card" [user]="member"></app-identity-card>
+    </section>
+
+    <!-- Section stats -->
+    <section class="user-section">
+      <h2 class="user-section-title">Statistiques</h2>
+      <app-stats-panel
+        [competitions]="competitions"
+        [selectedId]="selectedCompetitionId"
+        [stats]="stats"
+        (selectedIdChange)="onCompetitionChange($event)"
+      ></app-stats-panel>
+    </section>
+
+    <!-- Section pari vainqueur (lecture seule ; suit la compétition sélectionnée au-dessus) -->
+    <section class="user-section">
+      <h2 class="user-section-title">Pari vainqueur</h2>
+      <app-champion-bet-summary [pick]="championPick"></app-champion-bet-summary>
+    </section>
+
+    <!-- Section pronos archivés (lecture seule ; suit la compétition sélectionnée au-dessus) -->
+    <section class="user-section">
+      <h2 class="user-section-title">Pronos archivés</h2>
+      @if (archived.length) {
+        <div class="user-archived-list">
+          @for (p of archived; track p.match.id) {
+            <app-prediction-item
+              class="user-archived-item"
+              kind="archived"
+              [match]="p.match"
+              [mine]="false"
+              [style.animation-delay.ms]="$index * 40"
+              [predicted1]="p.predicted_score1"
+              [predicted2]="p.predicted_score2"
+              [correct]="p.correct"
+              [exact]="p.exact"
+              [points]="p.points"
+            ></app-prediction-item>
+          }
+        </div>
+      } @else {
+        <app-empty-state class="user-archived-empty" title="Aucun prono archivé" message="Ce joueur n'a pas encore de prono sur un match terminé."></app-empty-state>
+      }
+    </section>
+
+  }
+</ion-content>

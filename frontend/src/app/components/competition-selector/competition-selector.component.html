@@ -1,0 +1,31 @@
+<div class="competition-selector">
+  <!-- Barre repliée : affiche la compétition courante ; tape pour ouvrir le panneau. -->
+  <button
+    class="competition-selector-box"
+    [class.competition-selector-box-open]="isOpen()"
+    (click)="toggle()"
+  >
+    <span class="competition-selector-current">{{ selectedName() }}</span>
+    <ion-icon class="competition-selector-chevron" name="chevron-down"></ion-icon>
+  </button>
+
+  @if (isOpen()) {
+    <!-- Panneau custom : la liste des compétitions apparaît en effet vague. Au-delà de N options
+         visibles, le panneau devient scrollable. -->
+    <div class="competition-selector-panel">
+      @for (comp of competitions(); track comp.id; let i = $index) {
+        <button
+          class="competition-selector-option"
+          [class.competition-selector-option-active]="comp.id === selectedId()"
+          [style.animation-delay.ms]="i * 40"
+          (click)="select(comp.id)"
+        >
+          <span class="competition-selector-option-name">{{ comp.name }}</span>
+          @if (comp.id === selectedId()) {
+            <ion-icon class="competition-selector-check" name="checkmark"></ion-icon>
+          }
+        </button>
+      }
+    </div>
+  }
+</div>

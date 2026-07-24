@@ -1,0 +1,58 @@
+.admin-results-header {
+  box-shadow: none;
+}
+
+.admin-results-content {
+  --background: var(--app-background);
+  --padding-bottom: calc(16px + var(--safe-bottom));
+}
+
+.admin-results-competition {
+  display: block;
+  padding: 12px 16px 0;
+}
+
+// Segment à valider / validés (même style que les autres pages).
+.admin-results-segment {
+  display: flex;
+  gap: 4px;
+  margin: 12px 16px 0;
+  padding: 4px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-full);
+}
+
+.admin-results-segment-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--app-radius-full);
+  background: transparent;
+  color: var(--app-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background var(--app-transition), color var(--app-transition);
+}
+
+.admin-results-segment-btn-active {
+  background: var(--app-surface);
+  color: var(--app-text);
+  box-shadow: var(--app-shadow);
+}
+
+.admin-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 0;
+}
+
+.admin-results-item {
+  display: block;
+}
+
+.admin-results-empty {
+  display: block;
+  margin-top: 24px;
+}

@@ -1,0 +1,132 @@
+// Une ligne de message : avatar (autres) + corps (nom + bulle). Fondu léger à l'apparition.
+.chat-message {
+  // Géométrie de la bulle, centralisée : l'avatar en dérive sa taille pour faire PILE la hauteur
+  // d'une bulle d'une seule ligne (si la police/les paddings changent, l'avatar suit automatiquement).
+  --bubble-font-size: 15px;
+  --bubble-line-height: 1.35;
+  --bubble-pad-y: 8px;
+  --bubble-border: 1px;
+  --bubble-one-line: calc(
+    var(--bubble-font-size) * var(--bubble-line-height) + var(--bubble-pad-y) * 2 + var(--bubble-border) * 2
+  );
+
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+  animation: chat-message-in 0.25s ease both;
+}
+
+// Espace vertical plus marqué au début d'un groupe (nouvel auteur ou nouveau jour).
+.chat-message-head {
+  margin-top: 12px;
+}
+
+// Mes messages : alignés à droite.
+.chat-message-own {
+  flex-direction: row-reverse;
+}
+
+// Colonne réservée à l'avatar : dimension = hauteur d'une bulle sur une ligne (largeur réservée
+// même quand l'avatar est masqué → alignement constant).
+.chat-message-avatar {
+  flex-shrink: 0;
+  width: var(--bubble-one-line);
+  height: var(--bubble-one-line);
+  border-radius: var(--app-radius-full);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.chat-message-body {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+}
+
+.chat-message-own .chat-message-body {
+  align-items: flex-end;
+}
+
+.chat-message-name {
+  margin: 0 0 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  cursor: pointer;
+}
+
+// La bulle : contenu + heure. L'heure se place en bas à droite, dans le flux.
+.chat-message-bubble {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: var(--bubble-pad-y) 12px;
+  background: var(--app-surface);
+  border: var(--bubble-border) solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+// Ma bulle : accent, sans bordure.
+.chat-message-own .chat-message-bubble {
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border-color: transparent;
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+}
+
+.chat-message-content {
+  font-size: var(--bubble-font-size);
+  line-height: var(--bubble-line-height);
+  color: var(--app-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat-message-own .chat-message-content {
+  color: var(--app-on-accent);
+}
+
+// Message d'emojis uniquement : pas de bulle, gros emojis, heure discrète en dessous.
+.chat-message-emoji {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 2px 4px;
+}
+
+.chat-message-emoji-text {
+  line-height: 1.15;
+}
+
+.chat-message-time {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--app-text-muted);
+  // Aligne l'heure sur la dernière ligne de texte.
+  transform: translateY(1px);
+}
+
+// Heure d'un message sans bulle : toujours discrète (même pour mes messages : pas de fond accent).
+// Sélecteur plus spécifique pour l'emporter sur « .chat-message-own .chat-message-time » (accent).
+.chat-message-own .chat-message-time.chat-message-time-plain {
+  color: var(--app-text-muted);
+  opacity: 1;
+}
+
+.chat-message-own .chat-message-time {
+  color: var(--app-on-accent);
+  opacity: 0.85;
+}
+
+@keyframes chat-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

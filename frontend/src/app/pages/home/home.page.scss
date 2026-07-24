@@ -1,0 +1,165 @@
+// L'ion-header n'enveloppe que notre app-header : pas d'ombre Ionic par-dessus.
+.home-header {
+  box-shadow: none;
+}
+
+.home-content {
+  --background: var(--app-background);
+  // Espace bas pour ne pas passer sous la navbar fixe (+ safe area).
+  --padding-bottom: calc(72px + var(--safe-bottom));
+}
+
+.home-container {
+  padding: 20px 16px 0;
+  color: var(--app-text);
+}
+
+// Effet « vague » : chaque bloc apparaît en fondu + léger mouvement, décalé via un animation-delay inline.
+.home-fade {
+  animation: home-fade-in 380ms ease both;
+}
+
+.home-title {
+  margin: 0 0 20px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+// Message broadcast de l'organisateur : bandeau accent doux avec icône mégaphone.
+.home-broadcast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  background: var(--app-accent-soft);
+  border: 1px solid var(--app-accent);
+  border-radius: var(--app-radius);
+}
+
+.home-broadcast-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 20px;
+  color: var(--app-accent);
+}
+
+.home-broadcast-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--app-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+// Sélecteur de compétition, juste sous le broadcast.
+.home-competition {
+  display: block;
+  margin-bottom: 16px;
+}
+
+// Bouton-carte vers « Mes pronos » (d'autres cartes viendront sur le hub).
+.home-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.home-card-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.home-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.home-card-sub {
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+// Indicateur de pronos à faire (masqué si 0).
+.home-card-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-on-accent);
+  background: var(--app-accent);
+  border-radius: var(--app-radius-full);
+  white-space: nowrap;
+}
+
+.home-card-chevron {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: var(--app-text-muted);
+}
+
+// Section « Prochain(s) match(s) » : aperçu des cards pronosticables.
+.home-next {
+  margin-top: 24px;
+}
+
+.home-section-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.home-next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-next-item {
+  display: block;
+}
+
+// Section « Vainqueur de la compétition » : compte à rebours + grille d'équipes à parier.
+.home-champion {
+  margin-top: 24px;
+}
+
+.home-champion-countdown {
+  display: block;
+}
+
+.home-champion-hint {
+  margin: 12px 0;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.home-champion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@keyframes home-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

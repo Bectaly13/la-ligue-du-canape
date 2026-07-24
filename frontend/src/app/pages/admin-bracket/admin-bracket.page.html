@@ -1,0 +1,60 @@
+<ion-header class="admin-bracket-header">
+  <app-header class="header" title="Placement du bracket" [showBack]="true" (back)="goBack()" actionIcon="home-outline" [actionAccent]="true" (action)="goHome()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-bracket-content">
+  @if (competitions.length) {
+    <app-competition-selector
+      class="admin-bracket-competition admin-bracket-fade"
+      [style.animation-delay.ms]="0"
+      [competitions]="competitions"
+      [selectedId]="selectedCompetitionId"
+      (selectedIdChange)="onCompetitionChange($event)"
+    ></app-competition-selector>
+  }
+
+  @if (bracket) {
+    <p class="admin-bracket-info admin-bracket-fade" [style.animation-delay.ms]="60">
+      Place les équipes dans les cases. Les cases « auto » (1er/2e de poule, vainqueurs) se remplissent seules&nbsp;;
+      un placement manuel prend la main sur ce côté. Les confrontations déjà validées n'apparaissent pas (non modifiables).
+    </p>
+
+    @if (error) {
+      <p class="admin-bracket-error">{{ error }}</p>
+    }
+
+    @if (editableTies.length) {
+      <div class="admin-bracket-list">
+        @for (tie of editableTies; track tie.slot1.matchId; let i = $index) {
+          <div class="admin-bracket-tie admin-bracket-fade" [style.animation-delay.ms]="120 + i * 60">
+            <span class="admin-bracket-tie-title">{{ tie.label }}</span>
+            <span class="admin-bracket-tie-when">
+              @if (tie.twoLegged && tie.kickoff_retour) {
+                Aller {{ when(tie.kickoff_at) }} · Retour {{ when(tie.kickoff_retour) }}
+              } @else {
+                {{ when(tie.kickoff_at) }}
+              }
+            </span>
+            <div class="admin-bracket-slots">
+              <select class="admin-bracket-select" #sel1 (change)="place(tie.slot1, sel1.value)">
+                <option value="" [selected]="!tie.slot1.team">?</option>
+                @for (team of bracket.teams; track team.id) {
+                  <option [value]="team.id" [selected]="tie.slot1.team?.id === team.id">{{ team.name }}</option>
+                }
+              </select>
+              <span class="admin-bracket-vs">vs</span>
+              <select class="admin-bracket-select" #sel2 (change)="place(tie.slot2, sel2.value)">
+                <option value="" [selected]="!tie.slot2.team">?</option>
+                @for (team of bracket.teams; track team.id) {
+                  <option [value]="team.id" [selected]="tie.slot2.team?.id === team.id">{{ team.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <app-empty-state class="admin-bracket-empty" title="Aucune case à placer" message="Aucune confrontation à élimination directe n'est modifiable pour cette compétition (pas encore éditable, ou déjà toutes validées)."></app-empty-state>
+    }
+  }
+</ion-content>

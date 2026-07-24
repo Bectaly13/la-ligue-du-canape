@@ -1,0 +1,68 @@
+<!-- Toujours monté : ouverture/fermeture par classe → transition d'entrée ET de sortie
+     (un @if couperait le rendu net). Le contenu reste rendu pendant la fermeture. -->
+<div class="pred-overlay" [class.pred-overlay-open]="open()" (click)="onClose()">
+  <div class="pred-sheet" (click)="$event.stopPropagation()">
+    @if (context(); as ctx) {
+      <div class="pred-head">
+        <div class="pred-titles">
+          <h2 class="pred-title">Pronostic</h2>
+          <span class="pred-subtitle">{{ subtitle() }}</span>
+        </div>
+        <button class="pred-close" type="button" (click)="onClose()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Équipes + saisie du score -->
+      <div class="pred-match">
+        <div class="pred-side">
+          <app-flag class="pred-flag" [slug]="ctx.match.team1?.slug ?? null" [name]="ctx.match.team1?.name ?? ''"></app-flag>
+          <span class="pred-name">{{ ctx.match.team1?.name }}</span>
+          <div class="pred-stepper">
+            <button class="pred-step" type="button" (click)="dec1()"><ion-icon name="remove"></ion-icon></button>
+            <span class="pred-score">{{ score1() }}</span>
+            <button class="pred-step" type="button" (click)="inc1()"><ion-icon name="add"></ion-icon></button>
+          </div>
+        </div>
+
+        <span class="pred-vs">–</span>
+
+        <div class="pred-side">
+          <app-flag class="pred-flag" [slug]="ctx.match.team2?.slug ?? null" [name]="ctx.match.team2?.name ?? ''"></app-flag>
+          <span class="pred-name">{{ ctx.match.team2?.name }}</span>
+          <div class="pred-stepper">
+            <button class="pred-step" type="button" (click)="dec2()"><ion-icon name="remove"></ion-icon></button>
+            <span class="pred-score">{{ score2() }}</span>
+            <button class="pred-step" type="button" (click)="inc2()"><ion-icon name="add"></ion-icon></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cotes des 3 issues (mon prono inclus), issue courante mise en avant -->
+      <div class="pred-odds">
+        <div class="pred-odd" [class.pred-odd-active]="myOutcome() === 'team1'">
+          <span class="pred-odd-label">{{ ctx.match.team1?.name }}</span>
+          <span class="pred-odd-value">{{ odds().team1 }}</span>
+        </div>
+        <div class="pred-odd" [class.pred-odd-active]="myOutcome() === 'draw'">
+          <span class="pred-odd-label">Nul</span>
+          <span class="pred-odd-value">{{ odds().draw }}</span>
+        </div>
+        <div class="pred-odd" [class.pred-odd-active]="myOutcome() === 'team2'">
+          <span class="pred-odd-label">{{ ctx.match.team2?.name }}</span>
+          <span class="pred-odd-value">{{ odds().team2 }}</span>
+        </div>
+      </div>
+
+      <p class="pred-bonus">Bonus : +30 points si le score exact est trouvé.</p>
+
+      @if (error()) {
+        <p class="pred-error">{{ error() }}</p>
+      }
+
+      <button class="pred-validate" type="button" [disabled]="saving()" (click)="validate()">
+        {{ ctx.myPrediction ? "Modifier le prono" : "Valider le prono" }}
+      </button>
+    }
+  </div>
+</div>

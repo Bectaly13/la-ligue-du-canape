@@ -1,0 +1,125 @@
+// Fond assombri couvrant l'écran ; le panneau glisse depuis la droite. Toujours présent dans le DOM :
+// l'état ouvert/fermé se pilote par la classe .members-overlay-open → transition à l'entrée ET à la sortie.
+.members-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.members-overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.members-panel {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  background: var(--app-surface);
+  border-left: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-strong);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+}
+
+.members-overlay-open .members-panel {
+  transform: translateX(0);
+}
+
+.members-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.members-panel-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.members-panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: -4px;
+  border: none;
+  background: transparent;
+  color: var(--app-text-muted);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.members-panel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.members-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  background: transparent;
+  // Bordure transparente en permanence : la variante « moi » ne décale donc pas le contenu.
+  border: 1px solid transparent;
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+}
+
+.members-panel-item:active {
+  background: var(--app-surface-2);
+}
+
+// Ligne de l'utilisateur courant : mise en avant comme sa ligne dans le classement.
+.members-panel-item-me {
+  border-color: var(--app-accent);
+  background: var(--app-accent-soft);
+}
+
+.members-panel-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--app-radius-full);
+  overflow: hidden;
+}
+
+// Zone « nom + badge Admin » : isole le texte de l'avatar pour que la bulle épouse la hauteur du NOM
+// (et non celle, plus grande, de l'avatar).
+.members-panel-namerow {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.members-panel-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

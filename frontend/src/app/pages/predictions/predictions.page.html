@@ -1,0 +1,90 @@
+<ion-header class="predictions-header">
+  <app-header class="header" title="Mes pronos" [showBack]="true" (back)="goBack()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="predictions-content">
+  @if (competitions.length) {
+    <app-competition-selector
+      class="predictions-competition"
+      [competitions]="competitions"
+      [selectedId]="selectedCompetitionId"
+      (selectedIdChange)="onCompetitionChange($event)"
+    ></app-competition-selector>
+  }
+
+  <!-- Segment : type de prono -->
+  <div class="predictions-segment">
+    <button class="predictions-segment-btn" type="button" [class.predictions-segment-btn-active]="type === 'toPredict'" (click)="setType('toPredict')">À faire</button>
+    <button class="predictions-segment-btn" type="button" [class.predictions-segment-btn-active]="type === 'predicted'" (click)="setType('predicted')">Posés</button>
+    <button class="predictions-segment-btn" type="button" [class.predictions-segment-btn-active]="type === 'archived'" (click)="setType('archived')">Archivés</button>
+  </div>
+
+  @if (predictions) {
+    @switch (type) {
+
+      @case ('toPredict') {
+        @if (predictions.toPredict.length) {
+          <div class="predictions-list">
+            @for (p of predictions.toPredict; track p.match.id) {
+              <app-prediction-item class="predictions-list-item" kind="toPredict" [match]="p.match" [style.animation-delay.ms]="$index * 40" (open)="openPrediction($event)"></app-prediction-item>
+            }
+          </div>
+        } @else {
+          <app-empty-state class="predictions-empty" title="Aucun prono à faire" message="Aucun match ouvert aux pronos pour l'instant."></app-empty-state>
+        }
+      }
+
+      @case ('predicted') {
+        @if (predictions.predicted.length) {
+          <div class="predictions-list">
+            @for (p of predictions.predicted; track p.match.id) {
+              <app-prediction-item
+                class="predictions-list-item"
+                kind="predicted"
+                [match]="p.match"
+                [style.animation-delay.ms]="$index * 40"
+                [predicted1]="p.predicted_score1"
+                [predicted2]="p.predicted_score2"
+                [editable]="p.editable"
+                [odds]="p.odds"
+                (open)="openPrediction($event)"
+              ></app-prediction-item>
+            }
+          </div>
+        } @else {
+          <app-empty-state class="predictions-empty" title="Aucun prono posé" message="Tes pronos en attente de résultat apparaîtront ici."></app-empty-state>
+        }
+      }
+
+      @case ('archived') {
+        @if (predictions.archived.length) {
+          <div class="predictions-list">
+            @for (p of predictions.archived; track p.match.id) {
+              <app-prediction-item
+                class="predictions-list-item"
+                kind="archived"
+                [match]="p.match"
+                [style.animation-delay.ms]="$index * 40"
+                [predicted1]="p.predicted_score1"
+                [predicted2]="p.predicted_score2"
+                [correct]="p.correct"
+                [exact]="p.exact"
+                [points]="p.points"
+              ></app-prediction-item>
+            }
+          </div>
+        } @else {
+          <app-empty-state class="predictions-empty" title="Aucun prono archivé" message="Tes pronos validés et tes points apparaîtront ici."></app-empty-state>
+        }
+      }
+
+    }
+  }
+</ion-content>
+
+<app-prediction-modal
+  [open]="predictionOpen"
+  [context]="predictionContext"
+  (closed)="closePrediction()"
+  (saved)="onPredictionSaved()"
+></app-prediction-modal>

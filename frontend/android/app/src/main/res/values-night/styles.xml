@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Mode sombre du SYSTÈME : splash sur fond noir (Android < 12 + fond de la fenêtre de lancement).
+         Le splash natif suit le mode sombre système, pas le thème choisi dans l'app. -->
+    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+        <item name="android:background">@android:color/black</item>
+    </style>
+
+</resources>

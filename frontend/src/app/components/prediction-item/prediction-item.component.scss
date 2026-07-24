@@ -1,0 +1,189 @@
+// Apparition en fondu + léger mouvement ; le décalage (effet vague) est fourni par la page via
+// un animation-delay inline dépendant de l'index.
+:host {
+  display: block;
+  animation: pitem-in 0.3s ease both;
+}
+
+.pitem {
+  padding: 10px 14px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+// Prono encore ouvert (à poser ou à modifier) : carte cliquable.
+.pitem-clickable {
+  cursor: pointer;
+  border-color: var(--app-accent);
+}
+
+.pitem-context {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  text-transform: capitalize;
+}
+
+// --- Équipes + score central ---
+.pitem-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pitem-team {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  // Alignement vertical sur la 1re ligne du score (le score a une 2e ligne t.a.b. réservée).
+  padding-top: 3px;
+}
+
+.pitem-team-right {
+  justify-content: flex-end;
+}
+
+.pitem-flag {
+  flex-shrink: 0;
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  overflow: hidden;
+}
+
+.pitem-name {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pitem-team-right .pitem-name {
+  text-align: right;
+}
+
+.pitem-score {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.pitem-score-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--app-text);
+}
+
+.pitem-sep {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+// Ligne t.a.b. : toujours présente (réserve la hauteur) ; masquée s'il n'y a pas de t.a.b.
+.pitem-tab {
+  min-height: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  color: var(--app-text-muted);
+}
+
+.pitem-tab-hidden {
+  visibility: hidden;
+}
+
+// --- Ligne de résultat / action ---
+.pitem-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--app-border);
+}
+
+// Réserve, dans TOUTES les cards, la hauteur de ligne imposée par les points en gras (16px) des cards
+// archivées → « à faire » / « posés » s'alignent exactement sur les archivées, sans toucher ces dernières
+// (le pseudo est invisible et de largeur nulle ; sa marge négative annule le gap flex qu'il induirait).
+.pitem-result::before {
+  content: "\200b";
+  font-size: 16px;
+  font-weight: 800;
+  margin-right: -8px;
+}
+
+// Éléments « de gauche » : poussent le reste à droite.
+.pitem-odds,
+.pitem-prono {
+  margin-right: auto;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.pitem-odds strong {
+  color: var(--app-accent);
+}
+
+.pitem-cta {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-accent);
+}
+
+.pitem-muted {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}
+
+.pitem-tag {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+  border-radius: var(--app-radius-full);
+}
+
+.pitem-points {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.pitem-points-win {
+  color: var(--app-accent);
+}
+
+.pitem-points-zero {
+  color: var(--app-text-muted);
+}
+
+@keyframes pitem-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

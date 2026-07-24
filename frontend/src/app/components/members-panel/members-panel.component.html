@@ -1,0 +1,28 @@
+<!-- Toujours monté (overlay + panneau) : l'ouverture/fermeture se joue via des classes CSS,
+     ce qui permet une transition d'entrée ET de sortie (un @if couperait le rendu net). -->
+<div class="members-overlay" [class.members-overlay-open]="open()" (click)="onClose()">
+  <aside class="members-panel" (click)="$event.stopPropagation()">
+    <div class="members-panel-head">
+      <h2 class="members-panel-title">Membres</h2>
+      <button class="members-panel-close" type="button" (click)="onClose()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </div>
+
+    <div class="members-panel-list">
+      @for (m of members(); track m.id) {
+        <button class="members-panel-item" [class.members-panel-item-me]="m.id === myId()" type="button" (click)="onSelect(m.id)">
+          <div class="members-panel-avatar">
+            <app-avatar [photo]="m.photo" [name]="m.name" [seed]="m.id"></app-avatar>
+          </div>
+          <div class="members-panel-namerow">
+            <span class="members-panel-name">{{ m.name }}</span>
+            @if (m.is_admin) {
+              <app-admin-badge></app-admin-badge>
+            }
+          </div>
+        </button>
+      }
+    </div>
+  </aside>
+</div>

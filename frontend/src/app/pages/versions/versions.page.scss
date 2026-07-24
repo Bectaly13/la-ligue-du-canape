@@ -1,0 +1,19 @@
+.versions-header {
+  box-shadow: none;
+}
+
+.versions-content {
+  --background: var(--app-background);
+}
+
+.versions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+// La carte d'une note est stylée dans le composant app-version-note ; ici seul le bloc est posé.
+.versions-note {
+  display: block;
+}

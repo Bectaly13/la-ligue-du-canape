@@ -1,0 +1,126 @@
+.chat-header {
+  box-shadow: none;
+}
+
+// Barre Membres sous le header : effectif tappable, ouvre le volet Membres.
+.chat-members {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--app-surface);
+  border-bottom: 1px solid var(--header-border);
+  cursor: pointer;
+}
+
+.chat-members-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}
+
+.chat-members-chevron {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--app-text-muted);
+}
+
+.chat-content {
+  --background: var(--app-background);
+  // Repli avant mesure ; la valeur exacte (hauteur réelle de la barre de saisie) est posée en style
+  // inline par le composant → le dernier message n'est jamais caché derrière la zone de saisie.
+  --padding-bottom: calc(64px + var(--navbar-height) + var(--safe-bottom));
+}
+
+// Indicateur de chargement d'anciens messages (en haut du fil).
+.chat-more {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px 4px;
+}
+
+// Séparateur de jour : libellé centré.
+.chat-day {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 8px;
+}
+
+.chat-day-label {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  background: var(--app-surface-2);
+  border-radius: var(--app-radius-full);
+}
+
+.chat-empty {
+  display: block;
+  margin-top: 24px;
+}
+
+// --- Barre de saisie (fixée juste au-dessus de la navbar) ---
+.chat-input {
+  position: fixed;
+  left: 0;
+  right: 0;
+  // -1px : chevauche le bord haut de la navbar pour éviter un liseré de fond (gap subpixel).
+  bottom: calc(var(--navbar-height) + var(--safe-bottom) - 1px);
+  z-index: 101;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--app-surface);
+  border-top: 1px solid var(--app-border);
+}
+
+.chat-input-field {
+  flex: 1;
+  min-width: 0;
+  max-height: 120px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--app-text);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  outline: none;
+  resize: none;
+}
+
+.chat-input-send {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border: none;
+  border-radius: var(--app-radius-full);
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+  transition: opacity var(--app-transition);
+}
+
+.chat-input-send[disabled] {
+  opacity: 0.4;
+  box-shadow: none;
+}
+
+.chat-input-icon {
+  font-size: 20px;
+}

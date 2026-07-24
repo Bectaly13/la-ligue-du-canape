@@ -1,0 +1,41 @@
+# Dépendances (couvre backend/node_modules, frontend/node_modules…)
+node_modules/
+
+# Documentation : les specs (cahier des charges, stack technique, modèle de données) sont publiques.
+# On garde INTERNES le runbook de déploiement (coordonnées réelles du serveur : IP, SSH, domaine),
+# le guide Firebase (chemins d'infra) et les notes de travail (TODOs).
+docs/TODOs/
+docs/deploiement.md
+docs/firebase.md
+
+# Backend : base de données locale SQLite
+backend/data/
+
+# Outil d'admin local (visualisation base + logs de la VM via SSH) : perso, non publié, non déployé.
+# Contient les coordonnées de la VM (IP, clé SSH, chemin de la base).
+tools/
+
+# Backend : secrets — JAMAIS commités (clé Firebase, code d'accès de l'onboarding). On garde les
+# *.example versionnés pour montrer le format (ex. re-pousser un nouveau code d'accès après fuite).
+backend/secrets/*
+!backend/secrets/*.example
+
+# Frontend : caches & builds
+frontend/.angular/
+frontend/www/
+frontend/dist/
+
+# Android (artefacts de build)
+frontend/android/app/build/
+frontend/android/build/
+frontend/android/.gradle/
+frontend/android/app/src/main/assets/public/
+
+# Android : config Firebase (contient la clé API Android) — non commitée, regénérable depuis la
+# console Firebase (Paramètres du projet → app Android). Le .example (chemin différent) reste versionné.
+frontend/android/app/google-services.json
+
+# Divers
+*.log
+.DS_Store
+Thumbs.db

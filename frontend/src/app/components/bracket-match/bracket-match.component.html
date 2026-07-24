@@ -1,0 +1,31 @@
+<div class="bracket-match" [class.bracket-match-clickable]="canPredict()" (click)="onPredict()">
+  <div class="bracket-match-slot" [class.bracket-match-slot-win]="match().winner === 1" [class.bracket-match-slot-tbd]="!match().slot1.team">
+    <app-flag class="bracket-match-flag" [slug]="match().slot1.team?.slug ?? null" [name]="match().slot1.team?.name ?? ''"></app-flag>
+    <div class="bracket-match-body">
+      <span class="bracket-match-name">{{ match().slot1.team?.name ?? match().slot1.label }}</span>
+      @if (hasScore()) {
+        <span class="bracket-match-score">
+          @if (hasPenalties()) {
+            <span class="bracket-match-pen">({{ match().pen1 }})</span>
+          }
+          <span class="bracket-match-score-main">{{ match().agg1 }}</span>
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="bracket-match-slot" [class.bracket-match-slot-win]="match().winner === 2" [class.bracket-match-slot-tbd]="!match().slot2.team">
+    <app-flag class="bracket-match-flag" [slug]="match().slot2.team?.slug ?? null" [name]="match().slot2.team?.name ?? ''"></app-flag>
+    <div class="bracket-match-body">
+      <span class="bracket-match-name">{{ match().slot2.team?.name ?? match().slot2.label }}</span>
+      @if (hasScore()) {
+        <span class="bracket-match-score">
+          @if (hasPenalties()) {
+            <span class="bracket-match-pen">({{ match().pen2 }})</span>
+          }
+          <span class="bracket-match-score-main">{{ match().agg2 }}</span>
+        </span>
+      }
+    </div>
+  </div>
+</div>

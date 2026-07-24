@@ -1,0 +1,12 @@
+<div class="empty-state">
+  <ion-icon class="empty-state-icon" [name]="icon()"></ion-icon>
+  <h2 class="empty-state-title">{{ title() }}</h2>
+
+  @if (message()) {
+    <p class="empty-state-message">{{ message() }}</p>
+  }
+
+  @if (actionLabel()) {
+    <button class="empty-state-action" type="button" (click)="onAction()">{{ actionLabel() }}</button>
+  }
+</div>

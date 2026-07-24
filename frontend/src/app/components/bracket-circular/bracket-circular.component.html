@@ -1,0 +1,41 @@
+<div class="circle">
+  <!-- Zone zoomable (pinch / molette) et déplaçable (glisser). -->
+  <div
+    class="circle-viewport"
+    #viewport
+    (pointerdown)="onDown($event)"
+    (pointermove)="onMove($event)"
+    (pointerup)="onUp($event)"
+    (pointercancel)="onUp($event)"
+    (wheel)="onWheel($event)"
+  >
+    <div class="circle-canvas" [style.transform]="transform">
+      <!-- Arêtes (croisements) : équipes reliées à leur vainqueur au tour suivant, vers le centre. -->
+      <svg class="circle-lines" viewBox="0 0 100 100">
+        @for (e of layout().edges; track $index) {
+          <line [attr.x1]="e.x1" [attr.y1]="e.y1" [attr.x2]="e.x2" [attr.y2]="e.y2"></line>
+        }
+      </svg>
+
+      <!-- Équipes (drapeaux ronds) : du cercle extérieur (1er tour) au centre (vainqueur). -->
+      @for (n of layout().nodes; track $index) {
+        <div
+          class="circle-node"
+          [class.circle-node-champion]="n.champion"
+          [style.left.%]="n.x"
+          [style.top.%]="n.y"
+          [style.width.%]="n.size"
+        >
+          <app-flag class="circle-flag" [slug]="n.slug" [name]="n.name"></app-flag>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Contrôles (hors de la zone → n'interfèrent pas avec les gestes). -->
+  <div class="circle-controls">
+    <button class="circle-control" type="button" (click)="zoom(1.25)"><ion-icon name="add-outline"></ion-icon></button>
+    <button class="circle-control" type="button" (click)="zoom(0.8)"><ion-icon name="remove-outline"></ion-icon></button>
+    <button class="circle-control" type="button" (click)="reset()"><ion-icon name="scan-outline"></ion-icon></button>
+  </div>
+</div>

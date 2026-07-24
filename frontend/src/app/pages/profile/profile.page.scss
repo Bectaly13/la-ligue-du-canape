@@ -1,0 +1,150 @@
+.profile-header {
+  box-shadow: none;
+}
+
+.profile-content {
+  --background: var(--app-background);
+  --padding-bottom: calc(72px + var(--safe-bottom));
+}
+
+.profile-section {
+  padding: 12px 16px 0;
+}
+
+.profile-section-last {
+  padding-bottom: 16px;
+}
+
+// Effet « vague » : chaque section apparaît en fondu + léger mouvement, décalée via un animation-delay inline.
+.profile-fade {
+  animation: profile-in 380ms ease both;
+}
+
+.profile-section-title {
+  margin: 8px 0 8px 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--app-text-muted);
+}
+
+// --- Cartes de réglages (Paramètres / À propos) ---
+.profile-card {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 16px;
+  text-align: left;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-row[disabled] {
+  opacity: 0.5;
+}
+
+.profile-row-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.profile-row-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}
+
+.profile-row-chevron {
+  font-size: 18px;
+  color: var(--app-text-muted);
+}
+
+// Sélecteur de thème
+.profile-themes {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.profile-theme {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+}
+
+.profile-theme-active {
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border-color: transparent;
+}
+
+// Avertissement de permission système (notifications bloquées)
+.profile-warning {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-danger);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+}
+
+// Interrupteur (switch)
+.profile-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--app-radius-full);
+  background: var(--app-border);
+  transition: background var(--app-transition);
+}
+
+.profile-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--app-radius-full);
+  background: var(--app-on-accent);
+  box-shadow: var(--app-shadow);
+  transition: transform var(--app-transition);
+}
+
+.profile-switch-on {
+  background: var(--app-accent);
+}
+
+.profile-switch-on .profile-switch-knob {
+  transform: translateX(18px);
+}
+
+@keyframes profile-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

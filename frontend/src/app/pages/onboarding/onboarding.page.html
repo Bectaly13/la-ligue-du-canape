@@ -1,0 +1,69 @@
+<ion-content [fullscreen]="true" class="onboarding-content">
+  <div class="onboarding-container">
+    <h1 class="onboarding-title">Bienvenue&nbsp;!</h1>
+    <p class="onboarding-subtitle">Choisis ton pseudo et saisis le code d'accès communiqué par l'organisateur.</p>
+
+    <input
+      class="onboarding-input"
+      type="text"
+      name="pseudo"
+      [(ngModel)]="name"
+      placeholder="Ton pseudo"
+      maxlength="20"
+      autocomplete="off"
+      (keyup.enter)="submit()"
+    />
+
+    <input
+      class="onboarding-input"
+      type="text"
+      name="code"
+      [(ngModel)]="code"
+      placeholder="Code d'accès"
+      maxlength="40"
+      autocomplete="off"
+      autocapitalize="off"
+      (keyup.enter)="submit()"
+    />
+
+    <!-- Le nombre (5) reflète le quota du rate-limiter backend (server.js), partagé création + connexion. -->
+    <p class="onboarding-hint">Code confidentiel, 5 essais par jour.</p>
+
+    <button
+      class="onboarding-button"
+      (click)="submit()"
+      [disabled]="!canSubmit"
+    >
+      {{ loading ? "Création…" : "C'est parti" }}
+    </button>
+
+    <!-- Séparateur : connexion à un compte existant (changement d'appareil). -->
+    <div class="onboarding-or"><span class="onboarding-or-label">OU</span></div>
+
+    <p class="onboarding-subtitle">Déjà un compte&nbsp;? Connecte-toi avec ton jeton de récupération, fourni par l'organisateur.</p>
+
+    <input
+      class="onboarding-input"
+      type="text"
+      name="token"
+      [(ngModel)]="token"
+      placeholder="Jeton de récupération"
+      maxlength="128"
+      autocomplete="off"
+      autocapitalize="off"
+      (keyup.enter)="login()"
+    />
+
+    <button
+      class="onboarding-button onboarding-button-secondary"
+      (click)="login()"
+      [disabled]="!canLogin"
+    >
+      {{ loading ? "Connexion…" : "Se connecter" }}
+    </button>
+
+    @if (error) {
+      <p class="onboarding-error">{{ error }}</p>
+    }
+  </div>
+</ion-content>

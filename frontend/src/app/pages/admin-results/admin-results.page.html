@@ -1,0 +1,55 @@
+<ion-header class="admin-results-header">
+  <app-header class="header" title="Saisie des résultats" [showBack]="true" (back)="goBack()" actionIcon="home-outline" [actionAccent]="true" (action)="goHome()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-results-content">
+  @if (competitions.length) {
+    <app-competition-selector
+      class="admin-results-competition"
+      [competitions]="competitions"
+      [selectedId]="selectedCompetitionId"
+      (selectedIdChange)="onCompetitionChange($event)"
+    ></app-competition-selector>
+  }
+
+  <!-- Segment : à valider / validés -->
+  <div class="admin-results-segment">
+    <button class="admin-results-segment-btn" type="button" [class.admin-results-segment-btn-active]="segment === 'toValidate'" (click)="setSegment('toValidate')">À valider ({{ toValidate.length }})</button>
+    <button class="admin-results-segment-btn" type="button" [class.admin-results-segment-btn-active]="segment === 'validated'" (click)="setSegment('validated')">Validés ({{ validated.length }})</button>
+  </div>
+
+  @switch (segment) {
+
+    @case ('toValidate') {
+      @if (toValidate.length) {
+        <div class="admin-results-list">
+          @for (m of toValidate; track m.id) {
+            <app-admin-match-item class="admin-results-item" [match]="m" [style.animation-delay.ms]="$index * 40" (edit)="openResult(m)"></app-admin-match-item>
+          }
+        </div>
+      } @else {
+        <app-empty-state class="admin-results-empty" title="Rien à valider" message="Aucun match joué en attente d'un résultat."></app-empty-state>
+      }
+    }
+
+    @case ('validated') {
+      @if (validated.length) {
+        <div class="admin-results-list">
+          @for (m of validated; track m.id) {
+            <app-admin-match-item class="admin-results-item" [match]="m" [style.animation-delay.ms]="$index * 40" (edit)="openResult(m)"></app-admin-match-item>
+          }
+        </div>
+      } @else {
+        <app-empty-state class="admin-results-empty" title="Aucun match validé" message="Les résultats saisis apparaîtront ici."></app-empty-state>
+      }
+    }
+
+  }
+</ion-content>
+
+<app-result-modal
+  [open]="resultOpen"
+  [match]="resultMatch"
+  (closed)="closeResult()"
+  (saved)="onResultSaved()"
+></app-result-modal>

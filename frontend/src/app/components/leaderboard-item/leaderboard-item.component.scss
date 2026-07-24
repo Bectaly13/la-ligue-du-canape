@@ -1,0 +1,116 @@
+// Apparition en fondu + léger mouvement ; le décalage (effet vague) est fourni par la page via
+// un animation-delay inline dépendant de l'index.
+:host {
+  display: block;
+  animation: leaderboard-in 0.3s ease both;
+}
+
+@keyframes leaderboard-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  cursor: pointer;
+}
+
+// Ma ligne : accent doux pour se repérer d'un coup d'œil.
+.leaderboard-item-me {
+  border-color: var(--app-accent);
+  background: var(--app-accent-soft);
+}
+
+.leaderboard-rank {
+  flex-shrink: 0;
+  width: 26px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--app-text-muted);
+}
+
+// Médailles du podium.
+.leaderboard-rank-gold {
+  color: var(--rank-gold);
+}
+
+.leaderboard-rank-silver {
+  color: var(--rank-silver);
+}
+
+.leaderboard-rank-bronze {
+  color: var(--rank-bronze);
+}
+
+.leaderboard-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--app-radius-full);
+  overflow: hidden;
+}
+
+.leaderboard-identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.leaderboard-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-detail {
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+.leaderboard-points {
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.leaderboard-points-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--app-accent);
+}
+
+.leaderboard-points-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}

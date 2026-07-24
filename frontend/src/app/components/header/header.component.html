@@ -1,0 +1,19 @@
+<header class="header">
+  @if (showBack()) {
+    <button class="header-back" type="button" (click)="onBack()">
+      <ion-icon class="header-back-icon" name="arrow-back"></ion-icon>
+    </button>
+  }
+  <h1 class="header-title">{{ title() }}</h1>
+  @if (showAdminShield) {
+    <button class="header-admin" type="button" (click)="goToAdmin()">
+      <ion-icon class="header-admin-icon" name="shield-outline"></ion-icon>
+    </button>
+  }
+  @if (actionIcon()) {
+    <button class="header-action" [class.header-action-accent]="actionAccent()" type="button" (click)="onAction()">
+      <ion-icon class="header-action-icon" [name]="actionIcon()"></ion-icon>
+    </button>
+  }
+</header>
+<app-offline-banner class="header-offline"></app-offline-banner>

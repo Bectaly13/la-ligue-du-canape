@@ -1,0 +1,84 @@
+<!-- Toujours monté : ouverture/fermeture par classe → transition d'entrée ET de sortie. -->
+<div class="res-overlay" [class.res-overlay-open]="open()" (click)="onClose()">
+  <div class="res-sheet" (click)="$event.stopPropagation()">
+    @if (match(); as m) {
+      <div class="res-head">
+        <div class="res-titles">
+          <h2 class="res-title">
+            Résultat
+            @if (legLabel()) {
+              <span class="res-leg">{{ legLabel() }}</span>
+            }
+          </h2>
+          <span class="res-subtitle">{{ subtitle() }}</span>
+        </div>
+        <button class="res-close" type="button" (click)="onClose()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Équipes + saisie du score -->
+      <div class="res-match">
+        <div class="res-side">
+          <app-flag class="res-flag" [slug]="m.team1.slug" [name]="m.team1.name"></app-flag>
+          <span class="res-name">{{ m.team1.name }}</span>
+          <div class="res-stepper">
+            <button class="res-step" type="button" (click)="dec1()"><ion-icon name="remove"></ion-icon></button>
+            <span class="res-score">{{ score1() }}</span>
+            <button class="res-step" type="button" (click)="inc1()"><ion-icon name="add"></ion-icon></button>
+          </div>
+        </div>
+
+        <span class="res-vs">–</span>
+
+        <div class="res-side">
+          <app-flag class="res-flag" [slug]="m.team2.slug" [name]="m.team2.name"></app-flag>
+          <span class="res-name">{{ m.team2.name }}</span>
+          <div class="res-stepper">
+            <button class="res-step" type="button" (click)="dec2()"><ion-icon name="remove"></ion-icon></button>
+            <span class="res-score">{{ score2() }}</span>
+            <button class="res-step" type="button" (click)="inc2()"><ion-icon name="add"></ion-icon></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aller-retour : cumul courant, ou rappel de valider l'aller d'abord -->
+      @if (firstLegMissing()) {
+        <p class="res-note">Valide d'abord le match aller.</p>
+      } @else if (aggregate(); as agg) {
+        <p class="res-aggregate">Cumul&nbsp;: <strong>{{ agg.a }} – {{ agg.b }}</strong></p>
+      }
+
+      <!-- Tirs au but : section présente pour un match unique / une manche retour ; GRISÉE quand inutile
+           (aller jamais ; retour si cumul à égalité ; match unique si nul) → hauteur de la feuille stable. -->
+      @if (showPenaltiesSection()) {
+        <div class="res-penalties" [class.res-penalties-off]="!needsPenalties()">
+          <span class="res-penalties-label">Tirs au but</span>
+          <div class="res-penalties-row">
+            <div class="res-stepper">
+              <button class="res-step" type="button" [disabled]="!needsPenalties()" (click)="decP1()"><ion-icon name="remove"></ion-icon></button>
+              <span class="res-score res-score-tab">{{ penalty1() }}</span>
+              <button class="res-step" type="button" [disabled]="!needsPenalties()" (click)="incP1()"><ion-icon name="add"></ion-icon></button>
+            </div>
+            <span class="res-vs">–</span>
+            <div class="res-stepper">
+              <button class="res-step" type="button" [disabled]="!needsPenalties()" (click)="decP2()"><ion-icon name="remove"></ion-icon></button>
+              <span class="res-score res-score-tab">{{ penalty2() }}</span>
+              <button class="res-step" type="button" [disabled]="!needsPenalties()" (click)="incP2()"><ion-icon name="add"></ion-icon></button>
+            </div>
+          </div>
+          <!-- Toujours rendu (visibilité seulement) → réserve sa hauteur, la feuille ne saute pas. -->
+          <span class="res-penalties-warn" [class.res-penalties-warn-hidden]="!penaltiesInvalid()">Les tirs au but doivent départager.</span>
+        </div>
+      }
+
+      @if (error()) {
+        <p class="res-error">{{ error() }}</p>
+      }
+
+      <button class="res-validate" type="button" [disabled]="saving() || penaltiesInvalid() || firstLegMissing()" (click)="validate()">
+        {{ saving() ? "Enregistrement…" : (m.status === "finished" ? "Modifier le résultat" : "Valider le résultat") }}
+      </button>
+    }
+  </div>
+</div>

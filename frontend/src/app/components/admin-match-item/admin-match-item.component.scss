@@ -1,0 +1,142 @@
+// Apparition en fondu ; le décalage (effet vague) est fourni par la page via un animation-delay inline.
+:host {
+  display: block;
+  animation: aitem-in 0.3s ease both;
+}
+
+.aitem {
+  padding: 10px 14px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  cursor: pointer;
+}
+
+// Match encore à valider : carte accentuée.
+.aitem-clickable {
+  border-color: var(--app-accent);
+}
+
+.aitem-context {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  text-transform: capitalize;
+}
+
+// --- Équipes + score central ---
+.aitem-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.aitem-team {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding-top: 3px;
+}
+
+.aitem-team-right {
+  justify-content: flex-end;
+}
+
+.aitem-flag {
+  flex-shrink: 0;
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  overflow: hidden;
+}
+
+.aitem-name {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.aitem-team-right .aitem-name {
+  text-align: right;
+}
+
+.aitem-score {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.aitem-score-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--app-text);
+}
+
+.aitem-sep {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+.aitem-tab {
+  min-height: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  color: var(--app-text-muted);
+}
+
+.aitem-tab-hidden {
+  visibility: hidden;
+}
+
+// --- Ligne d'action ---
+.aitem-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--app-border);
+}
+
+.aitem-status {
+  margin-right: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}
+
+.aitem-cta {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-accent);
+}
+
+@keyframes aitem-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

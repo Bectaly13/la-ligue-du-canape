@@ -1,0 +1,86 @@
+// Le composant empile la barre de header puis, sous elle, le bandeau hors-ligne (voir header.component.html).
+:host {
+  display: block;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  /* Marge haute pour la safe area (barre d'état / encoche). */
+  padding-top: calc(12px + var(--safe-top));
+  background: var(--header-background);
+  color: var(--header-text);
+  border-bottom: 1px solid var(--header-border);
+}
+
+.header-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: -6px;
+  border: none;
+  background: transparent;
+  color: var(--header-text);
+  cursor: pointer;
+}
+
+.header-back-icon {
+  font-size: 24px;
+}
+
+.header-title {
+  // min-height = hauteur du bouton retour, pour que le header ait la même hauteur avec ou sans flèche.
+  // flex: 1 → pousse l'éventuelle action tout à droite.
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 36px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+// Bouton bouclier « Espace admin » (à droite, avant l'action de page), visible seulement pour l'admin.
+.header-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: -6px;
+  border: none;
+  background: transparent;
+  color: var(--app-accent);
+  cursor: pointer;
+}
+
+.header-admin-icon {
+  font-size: 22px;
+}
+
+// Bouton d'action à droite (ex. Membres), même gabarit que le bouton retour.
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: -6px;
+  border: none;
+  background: transparent;
+  color: var(--header-text);
+  cursor: pointer;
+}
+
+// Variante accent (ex. bouton « accueil » de l'espace admin, assorti au bouclier).
+.header-action-accent {
+  color: var(--app-accent);
+}
+
+.header-action-icon {
+  font-size: 24px;
+}

@@ -1,0 +1,18 @@
+@if (pick(); as p) {
+  @if (p.team; as team) {
+    <div class="champion-summary">
+      <app-flag class="champion-summary-flag" [slug]="team.slug" [name]="team.name"></app-flag>
+      <span class="champion-summary-name">{{ team.name }}</span>
+      @if (p.points !== null) {
+        <!-- Pari résolu (finale jouée) : gagné (+points) ou perdu (0). Accord via plural (1 → pt, sinon pts). -->
+        <span class="champion-summary-points" [class.champion-summary-points-win]="p.points > 0">{{ p.points > 0 ? "+" + p.points : "0" }} {{ plural(p.points, "pt") }}</span>
+      } @else {
+        <span class="champion-summary-reward">{{ p.reward }} {{ plural(p.reward, "points") }} en jeu</span>
+      }
+    </div>
+  } @else {
+    <div class="champion-summary champion-summary-empty">
+      <span class="champion-summary-none">Aucun pari de vainqueur</span>
+    </div>
+  }
+}

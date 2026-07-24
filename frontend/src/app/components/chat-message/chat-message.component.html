@@ -1,0 +1,42 @@
+<div class="chat-message" [class.chat-message-own]="isOwn()" [class.chat-message-head]="showHeader()">
+
+  @if (!isOwn()) {
+    <div class="chat-message-avatar" (click)="onOpenProfile()">
+      @if (showHeader()) {
+        <app-avatar [photo]="message().sender_photo" [name]="message().sender_name" [seed]="message().sender_id"></app-avatar>
+      }
+    </div>
+  }
+
+  <div class="chat-message-body">
+    @if (!isOwn() && showHeader()) {
+      <span class="chat-message-name" (click)="onOpenProfile()">{{ message().sender_name }}</span>
+    }
+
+    @if (emojiOnly()) {
+      <!-- Message d'emojis uniquement : gros emojis, sans bulle (effet WhatsApp), heure conservée. -->
+      <div
+        class="chat-message-emoji"
+        (pointerdown)="onPressStart()"
+        (pointerup)="onPressEnd()"
+        (pointerleave)="onPressEnd()"
+        (pointercancel)="onPressEnd()"
+      >
+        <span class="chat-message-emoji-text" [style.fontSize.px]="emojiSize()">{{ message().content }}</span>
+        <span class="chat-message-time chat-message-time-plain">{{ time() }}</span>
+      </div>
+    } @else {
+      <div
+        class="chat-message-bubble"
+        (pointerdown)="onPressStart()"
+        (pointerup)="onPressEnd()"
+        (pointerleave)="onPressEnd()"
+        (pointercancel)="onPressEnd()"
+      >
+        <span class="chat-message-content">{{ message().content }}</span>
+        <span class="chat-message-time">{{ time() }}</span>
+      </div>
+    }
+  </div>
+
+</div>

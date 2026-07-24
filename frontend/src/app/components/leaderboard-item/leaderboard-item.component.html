@@ -1,0 +1,27 @@
+<button class="leaderboard-item" [class.leaderboard-item-me]="isMe()" type="button" (click)="onOpen()">
+  <span
+    class="leaderboard-rank"
+    [class.leaderboard-rank-gold]="entry().rank === 1"
+    [class.leaderboard-rank-silver]="entry().rank === 2"
+    [class.leaderboard-rank-bronze]="entry().rank === 3"
+  >{{ entry().rank }}</span>
+
+  <div class="leaderboard-avatar">
+    <app-avatar [photo]="entry().photo" [name]="entry().name" [seed]="entry().id"></app-avatar>
+  </div>
+
+  <div class="leaderboard-identity">
+    <div class="leaderboard-name-row">
+      <span class="leaderboard-name">{{ entry().name }}</span>
+      @if (entry().is_admin) {
+        <app-admin-badge></app-admin-badge>
+      }
+    </div>
+    <span class="leaderboard-detail"><app-count-up [value]="entry().correct"></app-count-up> {{ plural(entry().correct, "bon") }} · <app-count-up [value]="entry().exact"></app-count-up> {{ plural(entry().exact, "exact") }}</span>
+  </div>
+
+  <div class="leaderboard-points">
+    <span class="leaderboard-points-value"><app-count-up [value]="entry().points"></app-count-up></span>
+    <span class="leaderboard-points-label">{{ plural(entry().points, "pt") }}</span>
+  </div>
+</button>

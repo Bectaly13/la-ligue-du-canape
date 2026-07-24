@@ -1,0 +1,88 @@
+.admin-broadcast-header {
+  box-shadow: none;
+}
+
+.admin-broadcast-content {
+  --background: var(--app-background);
+  --padding-bottom: calc(16px + var(--safe-bottom));
+}
+
+.admin-broadcast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px 0;
+  animation: admin-broadcast-fade-in 400ms ease both;
+}
+
+.admin-broadcast-info {
+  margin: 0;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.admin-broadcast-field {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--app-transition), box-shadow var(--app-transition);
+}
+
+.admin-broadcast-field:focus {
+  border-color: var(--app-accent);
+  box-shadow: var(--app-accent-glow);
+}
+
+.admin-broadcast-error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--app-danger);
+}
+
+.admin-broadcast-saved {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-accent);
+}
+
+.admin-broadcast-button {
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border: none;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  transition: transform var(--app-transition), box-shadow var(--app-transition);
+}
+
+.admin-broadcast-button:active {
+  transform: scale(0.98);
+}
+
+.admin-broadcast-button:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+@keyframes admin-broadcast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

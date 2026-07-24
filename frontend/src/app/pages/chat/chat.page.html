@@ -1,0 +1,84 @@
+<ion-header class="chat-header">
+  <app-header class="header" title="Chat"></app-header>
+  <!-- Accès aux membres : barre tappable sous le header (évite un 2e bouton dans le header). -->
+  @if (members.length) {
+    <button class="chat-members" type="button" (click)="openMembers()">
+      <span class="chat-members-label">{{ members.length }} {{ members.length > 1 ? "membres" : "membre" }}</span>
+      <ion-icon class="chat-members-chevron" name="chevron-forward"></ion-icon>
+    </button>
+  }
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" class="chat-content" [style.--padding-bottom]="contentPaddingBottom">
+
+  @if (loadingMore) {
+    <div class="chat-more">Chargement…</div>
+  }
+
+  <div class="chat-list">
+    @for (item of items; track item.key) {
+      @if (item.type === "day") {
+        <div class="chat-day">
+          <span class="chat-day-label">{{ item.label }}</span>
+        </div>
+      } @else {
+        <app-chat-message
+          class="chat-message-row"
+          [message]="item.message"
+          [isOwn]="item.isOwn"
+          [showHeader]="item.showHeader"
+          [canDelete]="item.canDelete"
+          (remove)="askDelete($event)"
+          (openProfile)="openProfile($event)"
+        ></app-chat-message>
+      }
+    }
+  </div>
+
+  @if (!loading && !items.length) {
+    <app-empty-state
+      class="chat-empty"
+      icon="chatbubbles-outline"
+      title="Aucun message"
+      message="Lance la discussion, personne n'a encore parlé&nbsp;!"
+    ></app-empty-state>
+  }
+
+</ion-content>
+
+<!-- Barre de saisie : posée juste au-dessus de la navbar (pas d'ion-footer). -->
+<div class="chat-input" #inputBar>
+  <textarea
+    #field
+    class="chat-input-field"
+    [(ngModel)]="draft"
+    (input)="autoGrow($event)"
+    rows="1"
+    maxlength="1000"
+    placeholder="Votre message…"
+  ></textarea>
+  <!-- mousedown preventDefault : le bouton ne vole pas le focus au textarea → le clavier reste ouvert. -->
+  <button class="chat-input-send" type="button" [disabled]="!draft.trim()" (mousedown)="$event.preventDefault()" (click)="send()">
+    <ion-icon class="chat-input-icon" name="send"></ion-icon>
+  </button>
+</div>
+
+<app-navbar class="navbar"></app-navbar>
+
+<app-confirm-modal
+  [open]="confirmOpen"
+  title="Supprimer le message ?"
+  message="Ce message sera définitivement retiré du chat."
+  confirmLabel="Supprimer"
+  [danger]="true"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+></app-confirm-modal>
+
+<app-members-panel
+  [open]="membersOpen"
+  [members]="members"
+  [myId]="myId"
+  (selected)="openProfile($event)"
+  (closed)="closeMembers()"
+></app-members-panel>

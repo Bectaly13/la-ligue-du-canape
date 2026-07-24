@@ -1,0 +1,76 @@
+<ion-header class="home-header">
+  <app-header class="header" title="Accueil"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="home-container">
+    <h1 class="home-title home-fade" [style.animation-delay.ms]="0">Salut {{ user?.name }}&nbsp;👋</h1>
+
+    @if (announcement?.content) {
+      <section class="home-broadcast home-fade" [style.animation-delay.ms]="60">
+        <ion-icon class="home-broadcast-icon" name="megaphone-outline"></ion-icon>
+        <p class="home-broadcast-text">{{ announcement?.content }}</p>
+      </section>
+    }
+
+    @if (competitions.length) {
+      <app-competition-selector
+        class="home-competition home-fade"
+        [style.animation-delay.ms]="120"
+        [competitions]="competitions"
+        [selectedId]="selectedCompetitionId"
+        (selectedIdChange)="onCompetitionChange($event)"
+      ></app-competition-selector>
+    }
+
+    <button class="home-card home-fade" type="button" (click)="goToPredictions()" [style.animation-delay.ms]="180">
+      <div class="home-card-text">
+        <span class="home-card-title">Mes pronos</span>
+        <span class="home-card-sub">Fais tes pronos, suis tes points.</span>
+      </div>
+      @if (toPredictCount > 0) {
+        <span class="home-card-badge">{{ toPredictCount }} à faire</span>
+      }
+      <ion-icon class="home-card-chevron" name="chevron-forward"></ion-icon>
+    </button>
+
+    @if (nextMatches.length) {
+      <section class="home-next home-fade" [style.animation-delay.ms]="240">
+        <h2 class="home-section-title">{{ nextMatches.length > 1 ? "Prochains matchs" : "Prochain match" }}</h2>
+        <div class="home-next-list">
+          @for (m of nextMatches; track m.id) {
+            <app-match-item class="home-next-item" [match]="m" [showDate]="true" (predict)="openPrediction($event)"></app-match-item>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Pari « vainqueur » : seulement avant le début de la compétition (non verrouillé). -->
+    @if (championBet && !championBet.locked && championBet.lockAt && championBet.teams.length) {
+      <section class="home-champion home-fade" [style.animation-delay.ms]="300">
+        <h2 class="home-section-title">Vainqueur de la compétition</h2>
+        <app-countdown class="home-champion-countdown" [target]="championBet.lockAt" (reached)="onChampionLockReached()"></app-countdown>
+        <p class="home-champion-hint">Qui soulèvera le trophée&nbsp;? {{ championBet.reward }} {{ plural(championBet.reward, "points") }} en jeu, modifiable jusqu'au coup d'envoi.</p>
+        <div class="home-champion-grid">
+          @for (t of championBet.teams; track t.id) {
+            <app-champion-team-option
+              class="home-champion-option"
+              [team]="t"
+              [selected]="t.id === championBet.myBet"
+              (pick)="pickChampion($event)"
+            ></app-champion-team-option>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</ion-content>
+
+<app-prediction-modal
+  [open]="predictionOpen"
+  [context]="predictionContext"
+  (closed)="closePrediction()"
+  (saved)="onPredictionSaved()"
+></app-prediction-modal>
+
+<app-navbar class="navbar"></app-navbar>

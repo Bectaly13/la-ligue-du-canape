@@ -1,0 +1,67 @@
+// Card lecture seule : drapeau + équipe pariée à gauche, statut (points figés / récompense) à droite.
+.champion-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.champion-summary-flag {
+  flex-shrink: 0;
+  width: 28px;
+  height: 21px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.champion-summary-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Récompense en jeu (pari non encore résolu). line-height figée pour ne pas dépasser la hauteur du
+// drapeau (21px), afin que la card garde la MÊME hauteur, résolu ou non.
+.champion-summary-reward {
+  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--app-text-muted);
+}
+
+// Points figés une fois la compétition terminée (même contrainte de line-height).
+.champion-summary-points {
+  flex-shrink: 0;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--app-text-muted);
+}
+
+.champion-summary-points-win {
+  color: var(--app-accent);
+}
+
+// Aucun pari : message discret centré.
+.champion-summary-empty {
+  justify-content: center;
+}
+
+.champion-summary-none {
+  // Même hauteur de contenu que le drapeau (21px) → la card sans pari a la même hauteur qu'avec pari.
+  display: flex;
+  align-items: center;
+  min-height: 21px;
+  font-size: 14px;
+  color: var(--app-text-muted);
+}

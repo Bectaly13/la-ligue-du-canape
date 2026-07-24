@@ -1,0 +1,148 @@
+.group-standings {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
+
+// Grille commune en-tête / lignes : rang, équipe (flexible), J, Diff, Pts, chevron.
+.group-standings-head,
+.group-standings-row {
+  display: grid;
+  // Colonnes numériques assez larges pour ne jamais forcer de retour à la ligne (« Pts », « +12 »…).
+  grid-template-columns: 24px 1fr 30px 46px 40px 16px;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+}
+
+.group-standings-head {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--app-text-muted);
+  border-bottom: 1px solid var(--app-border);
+}
+
+// Lignes cliquables (reset du style bouton).
+.group-standings-row {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+// Séparateur entre lignes (pas avant la première, déjà sous l'en-tête).
+.group-standings-row:not(:first-of-type) {
+  border-top: 1px solid var(--app-border);
+}
+
+.group-standings-pos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+.group-standings-team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.group-standings-flag {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+}
+
+.group-standings-teamname {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-standings-num {
+  text-align: center;
+  font-size: 14px;
+  white-space: nowrap; // jamais de retour à la ligne (J / Diff / Pts restent sur une ligne)
+  color: var(--app-text-muted);
+}
+
+.group-standings-pts {
+  font-weight: 800;
+  color: var(--app-text);
+}
+
+.group-standings-chevron {
+  font-size: 14px;
+  color: var(--app-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.group-standings-chevron-open {
+  transform: rotate(180deg);
+}
+
+// Accordéon : animation de hauteur via grid-template-rows (0fr → 1fr), sans valeur fixe.
+.group-standings-detailwrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.group-standings-detailwrap-open {
+  grid-template-rows: 1fr;
+}
+
+.group-standings-detailclip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.group-standings-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px 12px;
+  background: var(--app-surface-2);
+  border-top: 1px dashed var(--app-border);
+}
+
+.group-standings-detail-line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.group-standings-detail-label {
+  flex-shrink: 0;
+  width: 44px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--app-text-muted);
+}
+
+.group-standings-detail-value {
+  font-size: 14px;
+  color: var(--app-text);
+}

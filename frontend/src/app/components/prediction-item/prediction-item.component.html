@@ -1,0 +1,55 @@
+<div class="pitem" [class.pitem-clickable]="clickable()" (click)="onOpen()">
+  <span class="pitem-context">{{ context() }}</span>
+
+  <div class="pitem-main">
+    <div class="pitem-team">
+      <app-flag class="pitem-flag" [slug]="match().team1.slug" [name]="match().team1.name"></app-flag>
+      <span class="pitem-name">{{ match().team1.name }}</span>
+    </div>
+
+    <div class="pitem-score">
+      <span class="pitem-score-line">
+        <span class="pitem-score-main">{{ centerScore1() }}</span>
+        <span class="pitem-sep">–</span>
+        <span class="pitem-score-main">{{ centerScore2() }}</span>
+      </span>
+      <!-- Ligne t.a.b. : réservée en permanence (hauteur uniforme), visible seulement si présent. -->
+      <span class="pitem-tab" [class.pitem-tab-hidden]="!hasTab()">
+        t.a.b. {{ match().penalty_score1 }}–{{ match().penalty_score2 }}
+      </span>
+    </div>
+
+    <div class="pitem-team pitem-team-right">
+      <span class="pitem-name">{{ match().team2.name }}</span>
+      <app-flag class="pitem-flag" [slug]="match().team2.slug" [name]="match().team2.name"></app-flag>
+    </div>
+  </div>
+
+  <div class="pitem-result">
+    @switch (kind()) {
+      @case ('toPredict') {
+        <span class="pitem-cta">Pronostiquer</span>
+      }
+      @case ('predicted') {
+        <span class="pitem-odds">Cote <strong>{{ odds() }}</strong></span>
+        @if (editable()) {
+          <span class="pitem-cta">Modifier</span>
+        } @else {
+          <span class="pitem-muted">En attente du résultat</span>
+        }
+      }
+      @case ('archived') {
+        @if (hasPrediction()) {
+          <span class="pitem-prono">{{ mine() ? "Ton" : "Son" }} prono&nbsp;: {{ predicted1() }}–{{ predicted2() }}</span>
+          @if (exact()) {
+            <span class="pitem-tag">Score exact</span>
+          }
+          <span class="pitem-points" [class.pitem-points-win]="correct()" [class.pitem-points-zero]="!correct()">{{ correct() ? "+" + points() : "0" }} {{ plural(points() ?? 0, "pt") }}</span>
+        } @else {
+          <span class="pitem-prono">Pas de prono</span>
+          <span class="pitem-points pitem-points-zero">—</span>
+        }
+      }
+    }
+  </div>
+</div>

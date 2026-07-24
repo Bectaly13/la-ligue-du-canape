@@ -1,0 +1,27 @@
+<div class="bracket-scroll">
+  <div class="bracket">
+    @for (r of displayRounds(); track r.round.stage) {
+      <div class="bracket-round" [class.bracket-round-noin]="r.hideIncoming" [class.bracket-round-noout]="r.hideOutgoing">
+        <div class="bracket-round-title">{{ r.round.label }}</div>
+        <div class="bracket-cells">
+          @for (m of r.round.matches; track m.id) {
+            <div class="bracket-cell">
+              <div class="bracket-node">
+                <app-bracket-match [match]="m" (predict)="predict.emit($event)"></app-bracket-match>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+@if (thirdPlace()) {
+  <div class="bracket-third">
+    <span class="bracket-third-title">Petite finale</span>
+    <div class="bracket-third-node">
+      <app-bracket-match [match]="thirdPlace()!" (predict)="predict.emit($event)"></app-bracket-match>
+    </div>
+  </div>
+}

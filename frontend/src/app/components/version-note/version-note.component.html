@@ -1,0 +1,10 @@
+<span class="version-note-version">Version {{ note().version }}</span>
+@if (note().points.length) {
+  <ul class="version-note-points">
+    @for (point of note().points; track point) {
+      <li class="version-note-point">{{ point }}</li>
+    }
+  </ul>
+} @else {
+  <p class="version-note-first">Première version 🎉</p>
+}

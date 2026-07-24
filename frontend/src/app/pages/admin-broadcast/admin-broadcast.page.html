@@ -1,0 +1,36 @@
+<ion-header class="admin-broadcast-header">
+  <app-header class="header" title="Message d'accueil" [showBack]="true" (back)="goBack()" actionIcon="home-outline" [actionAccent]="true" (action)="goHome()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-broadcast-content">
+  @if (!loading) {
+    <div class="admin-broadcast-container">
+      <p class="admin-broadcast-info">Ce message s'affiche en tête de l'accueil de tous les joueurs.</p>
+
+      <textarea
+        class="admin-broadcast-field"
+        [(ngModel)]="content"
+        (ngModelChange)="onEdit()"
+        rows="5"
+        maxlength="500"
+        placeholder="Message affiché sur l'accueil…"
+      ></textarea>
+
+      <button
+        class="admin-broadcast-button"
+        type="button"
+        [disabled]="saving || !content.trim()"
+        (click)="save()"
+      >
+        {{ saving ? "Enregistrement…" : "Enregistrer" }}
+      </button>
+
+      @if (error) {
+        <p class="admin-broadcast-error">{{ error }}</p>
+      }
+      @if (saved) {
+        <p class="admin-broadcast-saved">Message enregistré&nbsp;✓</p>
+      }
+    </div>
+  }
+</ion-content>

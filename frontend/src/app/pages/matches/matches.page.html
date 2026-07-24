@@ -1,0 +1,128 @@
+<ion-header class="matches-header">
+  <app-header class="header" title="Matchs"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="matches-content">
+  @if (competitions.length) {
+    <app-competition-selector
+      class="matches-competition"
+      [competitions]="competitions"
+      [selectedId]="selectedCompetitionId"
+      (selectedIdChange)="onCompetitionChange($event)"
+    ></app-competition-selector>
+  }
+
+  <!-- Segment principal : Calendrier / Groupes / Bracket -->
+  <div class="matches-segment">
+    <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="view === 'calendar'" (click)="setView('calendar')">Calendrier</button>
+    <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="view === 'groups'" (click)="setView('groups')">Groupes</button>
+    <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="view === 'bracket'" (click)="setView('bracket')">Bracket</button>
+  </div>
+
+  @if (!loading) {
+    @switch (view) {
+
+      <!-- Vue Calendrier : à venir / joués + navigation par jour -->
+      @case ('calendar') {
+        <div class="matches-segment matches-segment-sub">
+          <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'upcoming'" (click)="setWhen('upcoming')">À venir</button>
+          <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'past'" (click)="setWhen('past')">Joués</button>
+        </div>
+
+        @if (currentDay) {
+          <div class="matches-daynav">
+            <button class="matches-daynav-btn" type="button" [disabled]="!canPrev" (click)="prev()">
+              <ion-icon class="matches-daynav-icon" name="chevron-back"></ion-icon>
+            </button>
+            <span class="matches-daynav-label">{{ currentDay.label }}</span>
+            <button class="matches-daynav-btn" type="button" [disabled]="!canNext" (click)="next()">
+              <ion-icon class="matches-daynav-icon" name="chevron-forward"></ion-icon>
+            </button>
+          </div>
+
+          <div class="matches-list">
+            @for (match of currentDay.matches; track match.id) {
+              <app-match-item class="matches-list-item" [match]="match" [style.animation-delay.ms]="$index * 40" (predict)="openPrediction($event)"></app-match-item>
+            }
+          </div>
+        } @else {
+          <app-empty-state
+            class="matches-empty"
+            icon="football-outline"
+            [title]="when === 'upcoming' ? 'Aucun match à venir' : 'Aucun match joué'"
+            [message]="when === 'upcoming' ? 'Les prochains matchs apparaîtront ici.' : 'Les matchs joués et leurs résultats apparaîtront ici.'"
+          ></app-empty-state>
+        }
+      }
+
+      <!-- Vue Groupes : sélecteur de poule + classement + matchs -->
+      @case ('groups') {
+        @if (groups.length) {
+          <div class="matches-groupchips">
+            @for (g of groups; track g.id) {
+              <button class="matches-groupchip" type="button" [class.matches-groupchip-active]="g.id === selectedGroupId" (click)="selectGroup(g.id)">{{ g.label }}</button>
+            }
+          </div>
+
+          @if (selectedGroup) {
+            <app-group-standings class="matches-group-standings" [standings]="selectedGroup.standings"></app-group-standings>
+
+            <h2 class="matches-group-title">Matchs</h2>
+            <div class="matches-list">
+              @for (match of selectedGroup.matches; track match.id) {
+                <app-match-item class="matches-list-item" [match]="match" [style.animation-delay.ms]="$index * 40" (predict)="openPrediction($event)"></app-match-item>
+              }
+            </div>
+          }
+        } @else {
+          <app-empty-state
+            class="matches-empty"
+            icon="football-outline"
+            title="Pas de poules"
+            message="Cette compétition n'a pas de phase de groupes."
+          ></app-empty-state>
+        }
+      }
+
+      <!-- Vue Bracket : arbre ou cercle de la phase à élimination directe -->
+      @case ('bracket') {
+        @if (bracket && bracket.rounds.length) {
+          <div class="matches-segment matches-segment-sub">
+            <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'tree'" (click)="setBracketMode('tree')">Arbre</button>
+            <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'circle'" (click)="setBracketMode('circle')">Cercle</button>
+          </div>
+
+          @if (bracketMode === 'tree') {
+            <app-bracket class="matches-bracket" [rounds]="bracket.rounds" [thirdPlace]="bracket.thirdPlace" (predict)="openPrediction($event)"></app-bracket>
+          } @else if (bracketLinear) {
+            <app-bracket-circular class="matches-bracket" [rounds]="bracket.rounds"></app-bracket-circular>
+          } @else {
+            <app-empty-state
+              class="matches-empty"
+              icon="git-network-outline"
+              title="Vue cercle indisponible"
+              message="Le cercle demande un tableau final entièrement prédéterminé. Certains tours étant tirés au sort, seule la vue Arbre est disponible ici."
+            ></app-empty-state>
+          }
+        } @else {
+          <app-empty-state
+            class="matches-empty"
+            icon="git-network-outline"
+            title="Tableau final à venir"
+            message="Le tableau de la phase à élimination directe sera dévoilé à l'issue des poules."
+          ></app-empty-state>
+        }
+      }
+
+    }
+  }
+</ion-content>
+
+<app-navbar class="navbar"></app-navbar>
+
+<app-prediction-modal
+  [open]="predictionOpen"
+  [context]="predictionContext"
+  (closed)="closePrediction()"
+  (saved)="onPredictionSaved()"
+></app-prediction-modal>

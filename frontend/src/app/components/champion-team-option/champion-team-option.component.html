@@ -1,0 +1,4 @@
+<button class="champion-option" [class.champion-option-selected]="selected()" type="button" (click)="onPick()">
+  <app-flag class="champion-option-flag" [slug]="team().slug" [name]="team().name"></app-flag>
+  <span class="champion-option-name">{{ team().name }}</span>
+</button>

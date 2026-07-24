@@ -1,0 +1,234 @@
+// Fond assombri ; la feuille glisse depuis le bas. Toujours monté : l'état ouvert/fermé se pilote par
+// la classe .pred-overlay-open → transition à l'entrée ET à la sortie (fermeture en douceur).
+.pred-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.pred-overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pred-sheet {
+  width: 100%;
+  max-width: 480px;
+  // Comportement bottom sheet (cf. Nexty) : hauteur bornée + défilement, avec le padding bas qui
+  // intègre la safe area (barre home) → toujours respecté, même quand le contenu défile.
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  background: var(--app-surface);
+  border-radius: var(--app-radius-lg) var(--app-radius-lg) 0 0;
+  box-shadow: var(--app-shadow-strong);
+  transform: translateY(100%);
+  transition: transform 0.28s ease;
+}
+
+.pred-overlay-open .pred-sheet {
+  transform: translateY(0);
+}
+
+.pred-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pred-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pred-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.pred-subtitle {
+  font-size: 13px;
+  color: var(--app-text-muted);
+  text-transform: capitalize;
+}
+
+.pred-close {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -4px -4px 0 0;
+  font-size: 22px;
+  color: var(--app-text-muted);
+  background: transparent;
+  border: none;
+}
+
+// --- Équipes + steppers ---
+.pred-match {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.pred-side {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pred-flag {
+  width: 40px;
+  height: 30px;
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  overflow: hidden;
+}
+
+.pred-name {
+  max-width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pred-vs {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+.pred-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pred-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  color: var(--app-text);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-full);
+}
+
+.pred-score {
+  min-width: 22px;
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--app-text);
+}
+
+// --- Cotes ---
+.pred-odds {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.pred-odd {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+}
+
+// Issue actuellement pariée : mise en avant.
+.pred-odd-active {
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border-color: transparent;
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+}
+
+.pred-odd-label {
+  max-width: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pred-odd-active .pred-odd-label {
+  color: var(--app-on-accent);
+  opacity: 0.9;
+}
+
+.pred-odd-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--app-text);
+}
+
+.pred-odd-active .pred-odd-value {
+  color: var(--app-on-accent);
+}
+
+.pred-bonus {
+  margin: 14px 0 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--app-text-muted);
+}
+
+.pred-error {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--app-danger);
+}
+
+.pred-validate {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border: none;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+}
+
+.pred-validate[disabled] {
+  opacity: 0.6;
+}

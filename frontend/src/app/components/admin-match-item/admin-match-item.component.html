@@ -1,0 +1,36 @@
+<div class="aitem aitem-clickable" (click)="onEdit()">
+  <span class="aitem-context">{{ context() }}</span>
+
+  <div class="aitem-main">
+    <div class="aitem-team">
+      <app-flag class="aitem-flag" [slug]="match().team1.slug" [name]="match().team1.name"></app-flag>
+      <span class="aitem-name">{{ match().team1.name }}</span>
+    </div>
+
+    <div class="aitem-score">
+      <span class="aitem-score-line">
+        <span class="aitem-score-main">{{ centerScore1() }}</span>
+        <span class="aitem-sep">–</span>
+        <span class="aitem-score-main">{{ centerScore2() }}</span>
+      </span>
+      <!-- Ligne t.a.b. : toujours réservée (hauteur uniforme), visible seulement si présent. -->
+      <span class="aitem-tab" [class.aitem-tab-hidden]="!hasTab()">
+        t.a.b. {{ match().penalty_score1 }}–{{ match().penalty_score2 }}
+      </span>
+    </div>
+
+    <div class="aitem-team aitem-team-right">
+      <span class="aitem-name">{{ match().team2.name }}</span>
+      <app-flag class="aitem-flag" [slug]="match().team2.slug" [name]="match().team2.name"></app-flag>
+    </div>
+  </div>
+
+  <div class="aitem-result">
+    @if (isFinished()) {
+      <span class="aitem-status">Validé</span>
+      <span class="aitem-cta">Modifier</span>
+    } @else {
+      <span class="aitem-cta">Saisir le résultat</span>
+    }
+  </div>
+</div>

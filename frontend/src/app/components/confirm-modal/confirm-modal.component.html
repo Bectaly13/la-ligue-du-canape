@@ -1,0 +1,14 @@
+@if (open()) {
+  <div class="confirm-modal-overlay" (click)="onCancel()">
+    <div class="confirm-modal-card" (click)="$event.stopPropagation()">
+      <h2 class="confirm-modal-title">{{ title() }}</h2>
+      @if (message()) {
+        <p class="confirm-modal-message">{{ message() }}</p>
+      }
+      <div class="confirm-modal-actions">
+        <button class="confirm-modal-btn confirm-modal-cancel" type="button" (click)="onCancel()">{{ cancelLabel() }}</button>
+        <button class="confirm-modal-btn confirm-modal-confirm" type="button" [class.confirm-modal-danger]="danger()" (click)="onConfirm()">{{ confirmLabel() }}</button>
+      </div>
+    </div>
+  </div>
+}

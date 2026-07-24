@@ -1,0 +1,260 @@
+// Bottom sheet identique au patron de la modale de prono : fond assombri, feuille qui glisse du bas,
+// toujours montée (transition d'entrée ET de sortie via la classe .res-overlay-open).
+.res-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.res-overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.res-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  background: var(--app-surface);
+  border-radius: var(--app-radius-lg) var(--app-radius-lg) 0 0;
+  box-shadow: var(--app-shadow-strong);
+  transform: translateY(100%);
+  transition: transform 0.28s ease;
+}
+
+.res-overlay-open .res-sheet {
+  transform: translateY(0);
+}
+
+.res-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.res-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.res-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.res-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Étiquette de manche (Aller / Retour).
+.res-leg {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+  border-radius: var(--app-radius-full);
+}
+
+.res-subtitle {
+  font-size: 13px;
+  color: var(--app-text-muted);
+  text-transform: capitalize;
+}
+
+// Rappel : la manche aller n'est pas validée.
+.res-note {
+  margin: 16px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--app-danger);
+}
+
+// Cumul courant de la confrontation (manche retour).
+.res-aggregate {
+  margin: 16px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--app-text-muted);
+}
+
+.res-aggregate strong {
+  color: var(--app-text);
+}
+
+.res-close {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -4px -4px 0 0;
+  font-size: 22px;
+  color: var(--app-text-muted);
+  background: transparent;
+  border: none;
+}
+
+// --- Équipes + steppers ---
+.res-match {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.res-side {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.res-flag {
+  width: 40px;
+  height: 30px;
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  overflow: hidden;
+}
+
+.res-name {
+  max-width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.res-vs {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text-muted);
+}
+
+.res-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.res-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  color: var(--app-text);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-full);
+}
+
+.res-score {
+  min-width: 22px;
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--app-text);
+}
+
+// --- Tirs au but (nul en élim directe) ---
+.res-penalties {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--app-border);
+}
+
+// Section grisée quand les t.a.b. sont inutiles (score non nul / cumul non à égalité) : elle reste
+// présente (hauteur de la feuille constante), mais atténuée et non modifiable.
+.res-penalties-off {
+  opacity: 0.4;
+}
+
+.res-penalties-off .res-step {
+  cursor: default;
+}
+
+.res-penalties-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--app-text-muted);
+}
+
+.res-penalties-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.res-score-tab {
+  font-size: 22px;
+}
+
+.res-penalties-warn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-danger);
+}
+
+// Toujours rendu (réserve sa hauteur) ; caché tant que les t.a.b. départagent → la feuille ne saute pas.
+.res-penalties-warn-hidden {
+  visibility: hidden;
+}
+
+.res-error {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--app-danger);
+}
+
+.res-validate {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-on-accent);
+  background: var(--app-accent-gradient);
+  border: none;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow), var(--app-accent-glow);
+}
+
+.res-validate[disabled] {
+  opacity: 0.6;
+}

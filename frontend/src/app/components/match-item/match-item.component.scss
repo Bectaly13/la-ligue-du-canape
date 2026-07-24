@@ -1,0 +1,188 @@
+// L'animation d'apparition est portée par l'hôte : la page peut décaler chaque item
+// (animation-delay) pour un effet « vague » au chargement.
+:host {
+  display: block;
+  animation: match-item-in 350ms ease both;
+}
+
+.match-item {
+  // Padding bas plus grand : il réserve l'espace du score t.a.b. (positionné hors flux),
+  // ce qui garde toutes les cartes à la même hauteur (+ un peu d'air sous le t.a.b.).
+  position: relative;
+  padding: 12px 14px 28px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+// Match pronosticable : carte cliquable.
+.match-item-clickable {
+  cursor: pointer;
+}
+
+// Invite à pronostiquer, dans l'espace bas réservé (aucun t.a.b. sur un match à venir).
+.match-item-predict {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-accent);
+}
+
+// Coup d'envoi passé, résultat pas encore validé : mention discrète (non cliquable).
+.match-item-await {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-muted);
+  white-space: nowrap;
+}
+
+// --- Haut : type (gauche) + heure (droite, à venir uniquement) ---
+.match-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.match-item-type {
+  padding: 3px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+  border-radius: var(--app-radius-full);
+}
+
+.match-item-time {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--app-text-muted);
+}
+
+// Date optionnelle (showDate), affichée devant l'heure. Capitalisée comme les autres libellés contextuels.
+.match-item-date {
+  text-transform: capitalize;
+}
+
+// --- Corps : équipe 1 | scores | équipe 2, tout aligné sur la MÊME ligne centrale ---
+.match-item-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.match-item-team {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.match-item-team-right {
+  justify-content: flex-end;
+}
+
+.match-item-flag {
+  flex-shrink: 0;
+  width: 26px;
+  height: 19px;
+  border-radius: 3px;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+}
+
+.match-item-name {
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.match-item-team-left .match-item-name {
+  flex: 1;
+  text-align: left;
+}
+
+.match-item-team-right .match-item-name {
+  flex: 1;
+  text-align: right;
+}
+
+// --- Centre : le score principal est sur la ligne centrale (comme noms/drapeaux) ;
+//     le score t.a.b. est positionné juste en dessous, hors flux (espace réservé par le padding bas). ---
+.match-item-scores {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.match-item-score {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+}
+
+.match-item-score-main {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--app-text);
+}
+
+.match-item-pen {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--app-text-muted);
+  white-space: nowrap;
+}
+
+.match-item-score-sep {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--app-text-muted);
+}
+
+// Espace du score t.a.b. toujours réservé (padding bas constant) → cartes de taille uniforme.
+.match-item-pen-hidden {
+  visibility: hidden;
+}
+
+// Bloc de scores toujours réservé, même pour un match à venir (masqué mais espace conservé).
+.match-item-scores-hidden {
+  visibility: hidden;
+}
+
+@keyframes match-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

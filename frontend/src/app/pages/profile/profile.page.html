@@ -1,0 +1,96 @@
+<ion-header class="profile-header">
+  <app-header class="header" title="Profil"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  @if (!loading && user) {
+
+    <!-- Section profil : photo, nom, id (card éditable) -->
+    <section class="profile-section profile-fade" [style.animation-delay.ms]="0">
+      <app-identity-card
+        class="profile-identity-card"
+        [user]="user"
+        [editable]="true"
+        [nameError]="nameError"
+        (nameSaved)="saveName($event)"
+        (photoPicked)="onPhotoPicked($event)"
+        (photoRemoved)="removePhoto()"
+      ></app-identity-card>
+    </section>
+
+    <!-- Section stats -->
+    <section class="profile-section profile-fade" [style.animation-delay.ms]="60">
+      <h2 class="profile-section-title">Statistiques</h2>
+      <app-stats-panel
+        [competitions]="competitions"
+        [selectedId]="selectedCompetitionId"
+        [stats]="stats"
+        (selectedIdChange)="onCompetitionChange($event)"
+      ></app-stats-panel>
+    </section>
+
+    <!-- Section pari vainqueur (suit la compétition sélectionnée au-dessus) -->
+    <section class="profile-section profile-fade" [style.animation-delay.ms]="120">
+      <h2 class="profile-section-title">Pari vainqueur</h2>
+      <app-champion-bet-summary [pick]="championPick"></app-champion-bet-summary>
+    </section>
+
+    <!-- Section Paramètres : thème + notifications -->
+    <section class="profile-section profile-fade" [style.animation-delay.ms]="180">
+      <h2 class="profile-section-title">Paramètres</h2>
+
+      <div class="profile-card">
+        <span class="profile-row-label">Thème</span>
+        <div class="profile-themes">
+          @for (t of themes; track t) {
+            <button class="profile-theme" type="button" [class.profile-theme-active]="t === currentTheme" (click)="selectTheme(t)">{{ t }}</button>
+          }
+        </div>
+      </div>
+
+      <button class="profile-card profile-row" type="button" (click)="toggleGlobal()">
+        <span class="profile-row-label">Notifications</span>
+        <span class="profile-switch" [class.profile-switch-on]="notifGlobal && systemAllowed"><span class="profile-switch-knob"></span></span>
+      </button>
+
+      @if (notifsSupported && !permissionGranted) {
+        <button class="profile-warning" type="button" (click)="openNotifSettings()">
+          Notifications bloquées au niveau du système. Ouvrir les réglages.
+        </button>
+      }
+
+      <button class="profile-card profile-row" type="button" [disabled]="!notifGlobal || !systemAllowed" (click)="toggleReminders()">
+        <span class="profile-row-label">Rappels avant-match</span>
+        <span class="profile-switch" [class.profile-switch-on]="notifGlobal && systemAllowed && notifReminders"><span class="profile-switch-knob"></span></span>
+      </button>
+
+      <button class="profile-card profile-row" type="button" [disabled]="!notifGlobal || !systemAllowed" (click)="toggleScores()">
+        <span class="profile-row-label">Scores après match</span>
+        <span class="profile-switch" [class.profile-switch-on]="notifGlobal && systemAllowed && notifScores"><span class="profile-switch-knob"></span></span>
+      </button>
+
+      <button class="profile-card profile-row" type="button" [disabled]="!notifGlobal || !systemAllowed" (click)="toggleAnnouncements()">
+        <span class="profile-row-label">Annonces de l'organisateur</span>
+        <span class="profile-switch" [class.profile-switch-on]="notifGlobal && systemAllowed && notifAnnouncements"><span class="profile-switch-knob"></span></span>
+      </button>
+    </section>
+
+    <!-- Section À propos : version + notes de version -->
+    <section class="profile-section profile-section-last profile-fade" [style.animation-delay.ms]="240">
+      <h2 class="profile-section-title">À propos</h2>
+
+      <div class="profile-card profile-row">
+        <span class="profile-row-label">Version</span>
+        <span class="profile-row-value">{{ version }}</span>
+      </div>
+
+      <button class="profile-card profile-row" type="button" (click)="goToVersions()">
+        <span class="profile-row-label">Notes de version</span>
+        <ion-icon class="profile-row-chevron" name="chevron-forward"></ion-icon>
+      </button>
+    </section>
+
+  }
+</ion-content>
+
+<app-navbar class="navbar"></app-navbar>

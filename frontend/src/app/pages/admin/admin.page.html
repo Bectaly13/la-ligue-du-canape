@@ -1,0 +1,49 @@
+<ion-header class="admin-header">
+  <app-header class="header" title="Espace admin" actionIcon="home-outline" [actionAccent]="true" (action)="goHome()"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-content">
+  <div class="admin-container">
+    <!-- Message d'accueil : indépendant de la compétition → mis à part, en tête, avec un style distinct. -->
+    <button class="admin-global-card admin-fade" type="button" (click)="goToBroadcast()" [style.animation-delay.ms]="0">
+      <ion-icon class="admin-global-icon" name="megaphone-outline"></ion-icon>
+      <div class="admin-card-text">
+        <span class="admin-card-title">Message d'accueil</span>
+        <span class="admin-card-sub">Éditer le message affiché sur l'accueil</span>
+      </div>
+      <ion-icon class="admin-card-chevron" name="chevron-forward"></ion-icon>
+    </button>
+
+    @if (competitions.length) {
+      <app-competition-selector
+        class="admin-competition admin-fade"
+        [style.animation-delay.ms]="60"
+        [competitions]="competitions"
+        [selectedId]="selectedCompetitionId"
+        (selectedIdChange)="onCompetitionChange($event)"
+      ></app-competition-selector>
+    }
+
+    <!-- Outils liés à la compétition sélectionnée. -->
+    <button class="admin-card admin-fade" type="button" (click)="goToResults()" [style.animation-delay.ms]="120">
+      <ion-icon class="admin-card-icon" name="clipboard-outline"></ion-icon>
+      <div class="admin-card-text">
+        <span class="admin-card-title">Saisie des résultats</span>
+        <span class="admin-card-sub">Valider les scores des matchs</span>
+      </div>
+      @if (pendingCount > 0) {
+        <span class="admin-card-badge">{{ pendingCount }} à valider</span>
+      }
+      <ion-icon class="admin-card-chevron" name="chevron-forward"></ion-icon>
+    </button>
+
+    <button class="admin-card admin-fade" type="button" (click)="goToBracket()" [style.animation-delay.ms]="180">
+      <ion-icon class="admin-card-icon" name="git-network-outline"></ion-icon>
+      <div class="admin-card-text">
+        <span class="admin-card-title">Placement du bracket</span>
+        <span class="admin-card-sub">Placer les équipes dans les cases KO</span>
+      </div>
+      <ion-icon class="admin-card-chevron" name="chevron-forward"></ion-icon>
+    </button>
+  </div>
+</ion-content>

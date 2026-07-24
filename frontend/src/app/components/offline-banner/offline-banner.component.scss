@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+// Bandeau posé juste sous le header : il pousse le contenu vers le bas, sans le recouvrir.
+.offline-banner {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--app-on-accent);
+  background: var(--app-accent);
+}

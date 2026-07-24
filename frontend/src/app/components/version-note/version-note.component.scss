@@ -1,0 +1,46 @@
+// Carte d'une note de version. L'animation d'entrée est portée par l'hôte : la page décale chaque
+// note (animation-delay) pour un effet « vague » au chargement.
+:host {
+  display: block;
+  padding: 14px 16px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  animation: version-note-in 0.3s ease both;
+}
+
+.version-note-version {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--app-accent);
+}
+
+.version-note-points {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.version-note-point {
+  margin: 4px 0;
+  font-size: 14px;
+  color: var(--app-text);
+}
+
+.version-note-first {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--app-text-muted);
+}
+
+@keyframes version-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

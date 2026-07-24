@@ -1,0 +1,41 @@
+<ion-header class="leaderboard-header">
+  <app-header class="header" title="Classement"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="leaderboard-content">
+  @if (!loading) {
+
+    @if (competitions.length) {
+      <app-competition-selector
+        class="leaderboard-competition"
+        [competitions]="competitions"
+        [selectedId]="selectedCompetitionId"
+        (selectedIdChange)="onCompetitionChange($event)"
+      ></app-competition-selector>
+    }
+
+    @if (entries.length) {
+      <div class="leaderboard-list">
+        @for (entry of entries; track entry.id; let i = $index) {
+          <app-leaderboard-item
+            class="leaderboard-row"
+            [style.animationDelay.ms]="i * 40"
+            [entry]="entry"
+            [isMe]="entry.id === myId"
+            (open)="openProfile($event)"
+          ></app-leaderboard-item>
+        }
+      </div>
+    } @else {
+      <app-empty-state
+        class="leaderboard-empty"
+        icon="trophy-outline"
+        title="Aucun classement"
+        message="Le classement apparaîtra dès les premiers pronostics."
+      ></app-empty-state>
+    }
+
+  }
+</ion-content>
+
+<app-navbar class="navbar"></app-navbar>

@@ -1,0 +1,45 @@
+<div class="identity-card">
+  <div class="identity-card-avatar-wrap">
+    <div class="identity-card-avatar">
+      <app-avatar [photo]="user().photo" [name]="user().name" [seed]="user().id"></app-avatar>
+    </div>
+
+    @if (editable()) {
+      <label class="identity-card-avatar-edit" title="Changer la photo">
+        <ion-icon name="create"></ion-icon>
+        <input class="identity-card-avatar-input" type="file" accept="image/*" hidden (change)="onPhotoSelected($event)" />
+      </label>
+      @if (user().photo) {
+        <button class="identity-card-avatar-remove" type="button" (click)="removePhoto()" title="Retirer la photo">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      }
+    }
+  </div>
+
+  <div class="identity-card-idblock">
+    @if (editable() && editing) {
+      <div class="identity-card-name-edit">
+        <input class="identity-card-name-input" type="text" [(ngModel)]="draft" (ngModelChange)="dismissedError = true" maxlength="20" (keyup.enter)="save()" />
+        <button class="identity-card-name-btn" type="button" (click)="save()"><ion-icon name="checkmark"></ion-icon></button>
+        <button class="identity-card-name-btn" type="button" (click)="cancelEdit()"><ion-icon name="close"></ion-icon></button>
+      </div>
+      @if (nameError() && !dismissedError) {
+        <p class="identity-card-name-error">{{ nameError() }}</p>
+      }
+    } @else {
+      <div class="identity-card-name-view">
+        <span class="identity-card-name">{{ user().name }}</span>
+        @if (editable()) {
+          <button class="identity-card-name-btn" type="button" (click)="startEdit()"><ion-icon name="create"></ion-icon></button>
+        }
+      </div>
+    }
+    <div class="identity-card-meta">
+      <span class="identity-card-id">ID #{{ user().id }}</span>
+      @if (user().is_admin) {
+        <app-admin-badge></app-admin-badge>
+      }
+    </div>
+  </div>
+</div>
