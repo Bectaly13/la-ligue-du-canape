@@ -8,7 +8,7 @@ depuis son canapé, gagne des points selon des **cotes dynamiques**, et s'affron
 > **Monorepo** — frontend **Ionic 8 / Angular 20** (standalone) + Capacitor, et backend
 > **Node.js / Express 5** avec base **SQLite**, hébergé 24/7 sur une VM Oracle Cloud.
 >
-> Version applicative actuelle : **1.0** · Première compétition couverte : **Ligue des Nations 2027**.
+> Version applicative actuelle : **1.0.1** · Première compétition couverte : **Ligue des Nations 2027**.
 
 ---
 

@@ -50,7 +50,7 @@
       <section class="home-champion home-fade" [style.animation-delay.ms]="300">
         <h2 class="home-section-title">Vainqueur de la compétition</h2>
         <app-countdown class="home-champion-countdown" [target]="championBet.lockAt" (reached)="onChampionLockReached()"></app-countdown>
-        <p class="home-champion-hint">Qui soulèvera le trophée&nbsp;? {{ championBet.reward }} {{ plural(championBet.reward, "points") }} en jeu, modifiable jusqu'au coup d'envoi.</p>
+        <p class="home-champion-hint">Qui soulèvera le trophée&nbsp;? {{ championBet.reward }} {{ plural(championBet.reward, "point") }} en jeu, modifiable jusqu'au coup d'envoi.</p>
         <div class="home-champion-grid">
           @for (t of championBet.teams; track t.id) {
             <app-champion-team-option

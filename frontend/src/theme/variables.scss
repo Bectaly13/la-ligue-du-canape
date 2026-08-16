@@ -10,8 +10,11 @@
 
 /* ----- Constantes indépendantes du thème ----- */
 :root {
-  /* Safe areas (encoche / barres système) */
-  --safe-top: env(safe-area-inset-top);
+  /* Safe areas (encoche / barres système).
+     --safe-top-native est injectée par MainActivity (hauteur réelle de la barre d'état) : sur Android 9
+     env(safe-area-inset-top) vaut souvent 0 à tort, on prend donc le max des deux. Sur navigateur / appareils
+     récents, la variable native est absente (repli 0px) → comportement inchangé. */
+  --safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px));
   --safe-bottom: env(safe-area-inset-bottom);
 
   /* Accent (identité : bleu) */

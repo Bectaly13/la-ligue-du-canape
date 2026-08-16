@@ -10,6 +10,13 @@ const config: CapacitorConfig = {
     LocalNotifications: {
       smallIcon: "res://drawable/football",
       iconColor: "#105EF6"
+    },
+
+    // Clavier : on désactive le resize du plugin (resizeOnFullScreen ne se déclenche pas sur Android < 10,
+    // faute d'inset IME fiable). Le redimensionnement de la WebView à l'ouverture du clavier est géré
+    // nous-mêmes, pour toutes les versions, dans MainActivity.enableKeyboardResize (réplique de adjustResize).
+    Keyboard: {
+      resizeOnFullScreen: false
     }
   }
 };

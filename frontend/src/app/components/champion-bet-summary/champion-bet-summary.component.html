@@ -7,7 +7,7 @@
         <!-- Pari résolu (finale jouée) : gagné (+points) ou perdu (0). Accord via plural (1 → pt, sinon pts). -->
         <span class="champion-summary-points" [class.champion-summary-points-win]="p.points > 0">{{ p.points > 0 ? "+" + p.points : "0" }} {{ plural(p.points, "pt") }}</span>
       } @else {
-        <span class="champion-summary-reward">{{ p.reward }} {{ plural(p.reward, "points") }} en jeu</span>
+        <span class="champion-summary-reward">{{ p.reward }} {{ plural(p.reward, "point") }} en jeu</span>
       }
     </div>
   } @else {

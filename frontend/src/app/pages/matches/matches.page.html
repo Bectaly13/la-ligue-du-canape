@@ -19,15 +19,25 @@
     <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="view === 'bracket'" (click)="setView('bracket')">Bracket</button>
   </div>
 
+  <!-- Sous-sélecteurs : état d'UI pur → hors du garde de chargement pour ne pas clignoter à l'ouverture. -->
+  @if (view === 'calendar') {
+    <div class="matches-segment matches-segment-sub">
+      <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'upcoming'" (click)="setWhen('upcoming')">À venir</button>
+      <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'past'" (click)="setWhen('past')">Joués</button>
+    </div>
+  }
+  @if (view === 'bracket' && bracket && bracket.rounds.length) {
+    <div class="matches-segment matches-segment-sub">
+      <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'tree'" (click)="setBracketMode('tree')">Arbre</button>
+      <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'circle'" (click)="setBracketMode('circle')">Cercle</button>
+    </div>
+  }
+
   @if (!loading) {
     @switch (view) {
 
-      <!-- Vue Calendrier : à venir / joués + navigation par jour -->
+      <!-- Vue Calendrier : navigation par jour (le sous-sélecteur À venir / Joués est au-dessus) -->
       @case ('calendar') {
-        <div class="matches-segment matches-segment-sub">
-          <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'upcoming'" (click)="setWhen('upcoming')">À venir</button>
-          <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="when === 'past'" (click)="setWhen('past')">Joués</button>
-        </div>
 
         @if (currentDay) {
           <div class="matches-daynav">
@@ -70,7 +80,7 @@
             <h2 class="matches-group-title">Matchs</h2>
             <div class="matches-list">
               @for (match of selectedGroup.matches; track match.id) {
-                <app-match-item class="matches-list-item" [match]="match" [style.animation-delay.ms]="$index * 40" (predict)="openPrediction($event)"></app-match-item>
+                <app-match-item class="matches-list-item" [match]="match" [showDate]="true" [style.animation-delay.ms]="$index * 40" (predict)="openPrediction($event)"></app-match-item>
               }
             </div>
           }
@@ -84,14 +94,9 @@
         }
       }
 
-      <!-- Vue Bracket : arbre ou cercle de la phase à élimination directe -->
+      <!-- Vue Bracket : arbre ou cercle de la phase à élimination directe (sous-sélecteur Arbre / Cercle au-dessus) -->
       @case ('bracket') {
         @if (bracket && bracket.rounds.length) {
-          <div class="matches-segment matches-segment-sub">
-            <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'tree'" (click)="setBracketMode('tree')">Arbre</button>
-            <button class="matches-segment-btn" type="button" [class.matches-segment-btn-active]="bracketMode === 'circle'" (click)="setBracketMode('circle')">Cercle</button>
-          </div>
-
           @if (bracketMode === 'tree') {
             <app-bracket class="matches-bracket" [rounds]="bracket.rounds" [thirdPlace]="bracket.thirdPlace" (predict)="openPrediction($event)"></app-bracket>
           } @else if (bracketLinear) {

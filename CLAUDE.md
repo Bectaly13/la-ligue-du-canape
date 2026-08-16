@@ -162,11 +162,24 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
   calcul de fuseau à la main.
 - Les **coups d'envoi** des matchs sont stockés et affichés en **heure de Paris** (Europe/Paris).
 
-### Safe areas (Android)
+### Safe areas & adaptations natives Android (`MainActivity.java`)
 - **Edge-to-edge automatique** : `app-header` dans `<ion-header>` + `<ion-content [fullscreen]="true">`.
   Ne pas appeler `StatusBar.setOverlaysWebView`. Appliquer `--safe-top`/`--safe-bottom`
   (`env(safe-area-inset-*)`) en padding sur header/navbar. Prérequis outils récents (Capacitor ≥ 8.4,
   AGP 9.x, `@capacitor/keyboard` ≥ 8.0.5) — voir le détail dans les projets de référence si besoin.
+- **Trois correctifs natifs vivent dans `frontend/android/.../MainActivity.java`** (Android « ancien » ne
+  gère pas ces cas comme les versions récentes ; chaque méthode est commentée en détail) :
+  - **`exposeSafeAreaTop`** : sur Android 9, la WebView renvoie souvent `env(safe-area-inset-top) = 0`. On
+    lit la hauteur réelle des barres système et on l'injecte dans `--safe-top-native` ; `variables.scss`
+    combine les deux via `--safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px))`.
+  - **`applyDarkNavigationBar`** : barre de navigation Android toujours **noire à boutons blancs** (tous
+    thèmes). Ré-appliquée à chaque `onWindowFocusChanged` car, sur API < 30, le flag d'apparence est
+    réécrasé au démarrage.
+  - **`enableKeyboardResize`** : réplique de `adjustResize` **uniquement sur API < 30** (insets IME non
+    fiables en edge-to-edge avant Android 11). Un `OnGlobalLayoutListener` rétrécit le conteneur de la
+    WebView à l'ouverture du clavier → tout le contenu remonte. Sur API ≥ 30, `adjustResize` (manifest)
+    suffit ; on **ne double pas** le redimensionnement. Le `resizeOnFullScreen` du plugin Keyboard est
+    laissé à `false` (il ne fonctionnait pas sur API < 30 et ferait doublon sur API ≥ 30).
 
 ---
 
