@@ -169,9 +169,14 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
   AGP 9.x, `@capacitor/keyboard` ≥ 8.0.5) — voir le détail dans les projets de référence si besoin.
 - **Trois correctifs natifs vivent dans `frontend/android/.../MainActivity.java`** (Android « ancien » ne
   gère pas ces cas comme les versions récentes ; chaque méthode est commentée en détail) :
-  - **`exposeSafeAreaTop`** : sur Android 9, la WebView renvoie souvent `env(safe-area-inset-top) = 0`. On
-    lit la hauteur réelle des barres système et on l'injecte dans `--safe-top-native` ; `variables.scss`
-    combine les deux via `--safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px))`.
+  - **`exposeSafeAreaTop`** (**API < 30 uniquement**) : sur Android 9/10, la WebView renvoie souvent
+    `env(safe-area-inset-top) = 0`. On lit la hauteur réelle des barres système et on l'injecte dans
+    `--safe-top-native` ; `variables.scss` combine les deux via
+    `--safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px))`. **Garde-fou crucial** :
+    poser ce listener sur la WebView **remplace** son traitement natif des insets (elle ne calcule plus
+    `env()` elle-même). Sur API ≥ 30 — surtout Android 15/16 (API ≥ 35, edge-to-edge **forcé** par
+    l'OS) — cela « affamerait » `env(safe-area-inset-bottom)` et ferait passer la navbar sous la barre
+    de navigation système. Sur ces versions, la WebView (Capacitor ≥ 8.4) gère nativement les insets.
   - **`applyDarkNavigationBar`** : barre de navigation Android toujours **noire à boutons blancs** (tous
     thèmes). Ré-appliquée à chaque `onWindowFocusChanged` car, sur API < 30, le flag d'apparence est
     réécrasé au démarrage.

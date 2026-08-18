@@ -61,12 +61,21 @@ public class MainActivity extends BridgeActivity {
         }
     }
 
-    // Sur Android 9, la WebView renvoie souvent env(safe-area-inset-top) = 0 alors que le contenu est
-    // dessiné sous la barre d'état → le header remonte trop haut (titre trop proche de la caméra). On lit
-    // la hauteur réelle des barres système et on l'injecte dans une variable CSS (--safe-top-native), que
-    // le thème combine avec env() via max() : sur les appareils récents (env() fiable) la valeur est
-    // identique (pas de double marge), sur Android 9 (env() = 0) c'est cette valeur native qui prend le relais.
+    // Sur Android 9/10 (API < 30), la WebView renvoie souvent env(safe-area-inset-top) = 0 alors que le
+    // contenu est dessiné sous la barre d'état → le header remonte trop haut (titre trop proche de la
+    // caméra). On lit la hauteur réelle des barres système et on l'injecte dans une variable CSS
+    // (--safe-top-native), que le thème combine avec env() via max().
+    //
+    // UNIQUEMENT sur API < 30. Poser un OnApplyWindowInsetsListener sur la WebView REMPLACE son traitement
+    // natif des insets : elle ne calcule alors plus env(safe-area-inset-*) elle-même. Sur API < 30 c'est
+    // sans conséquence (env() était déjà cassé, on le supplée). Mais sur API ≥ 30 — surtout Android 15/16
+    // (API ≥ 35) où l'edge-to-edge est FORCÉ par l'OS — cela « affamerait » env(safe-area-inset-bottom)
+    // (→ 0), et la navbar de l'app passerait sous la barre de navigation système. Sur ces versions, la
+    // WebView (Capacitor ≥ 8.4) gère nativement les insets : on ne s'en mêle pas.
     private void exposeSafeAreaTop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return;
+        }
         final WebView webView = getBridge().getWebView();
         final float density = getResources().getDisplayMetrics().density;
         // IMPORTANT : listener posé sur la WEBVIEW (enfant), PAS sur le decorView. Le decorView dessine
