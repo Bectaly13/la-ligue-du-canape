@@ -11,6 +11,10 @@ docs/firebase.md
 # Backend : base de données locale SQLite
 backend/data/
 
+# Sauvegardes horodatées de la prod (base SQLite + secret Firebase) et le script qui les génère :
+# données réelles (comptes, messages) + secret → JAMAIS commité.
+backups/
+
 # Outil d'admin local (visualisation base + logs de la VM via SSH) : perso, non publié, non déployé.
 # Contient les coordonnées de la VM (IP, clé SSH, chemin de la base).
 tools/

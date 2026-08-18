@@ -169,9 +169,14 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
   AGP 9.x, `@capacitor/keyboard` ≥ 8.0.5) — voir le détail dans les projets de référence si besoin.
 - **Trois correctifs natifs vivent dans `frontend/android/.../MainActivity.java`** (Android « ancien » ne
   gère pas ces cas comme les versions récentes ; chaque méthode est commentée en détail) :
-  - **`exposeSafeAreaTop`** : sur Android 9, la WebView renvoie souvent `env(safe-area-inset-top) = 0`. On
-    lit la hauteur réelle des barres système et on l'injecte dans `--safe-top-native` ; `variables.scss`
-    combine les deux via `--safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px))`.
+  - **`exposeSafeAreaTop`** (**API < 30 uniquement**) : sur Android 9/10, la WebView renvoie souvent
+    `env(safe-area-inset-top) = 0`. On lit la hauteur réelle des barres système et on l'injecte dans
+    `--safe-top-native` ; `variables.scss` combine les deux via
+    `--safe-top: max(env(safe-area-inset-top), var(--safe-top-native, 0px))`. **Garde-fou crucial** :
+    poser ce listener sur la WebView **remplace** son traitement natif des insets (elle ne calcule plus
+    `env()` elle-même). Sur API ≥ 30 — surtout Android 15/16 (API ≥ 35, edge-to-edge **forcé** par
+    l'OS) — cela « affamerait » `env(safe-area-inset-bottom)` et ferait passer la navbar sous la barre
+    de navigation système. Sur ces versions, la WebView (Capacitor ≥ 8.4) gère nativement les insets.
   - **`applyDarkNavigationBar`** : barre de navigation Android toujours **noire à boutons blancs** (tous
     thèmes). Ré-appliquée à chaque `onWindowFocusChanged` car, sur API < 30, le flag d'apparence est
     réécrasé au démarrage.
@@ -203,7 +208,7 @@ Sous `backend/` :
 - `sql/` : les requêtes SQL, en **requêtes préparées** (placeholders `?`, jamais de concaténation).
   - `sql/sqlConnect.js` : ouvre la base **SQLite** (`better-sqlite3`) et expose des helpers (`get`, `all`, `run`).
   - `sql/sqlConfig.js` : **constantes des noms de tables** (`users`, `competitions`, `teams`, `groups`,
-    `matches`, `predictions`, `championBets`, `messages`) — renommer une table ne casse pas les requêtes.
+    `matches`, `predictions`, `championBets`, `messages`, `announcements`) — renommer une table ne casse pas les requêtes.
   - `sql/sqlXxx.js` : une famille de requêtes par domaine.
 - `socket/` : le **temps réel** (Socket.IO), analogue à `scripts/` mais pour les événements live.
   Un fichier `xxxSocket.js` exporte `registerXxxSocket(io)` : middleware d'auth du socket (handshake)
@@ -261,7 +266,12 @@ Sous `backend/` :
 
 ## Modèle de données
 
-- **Source de vérité** : `docs/modele-de-donnees.md` (8 tables + schéma relationnel).
+- **Source de vérité** : `docs/modele-de-donnees.md` (9 tables + schéma relationnel).
+- **Docs synchrones avec le code** : toute évolution du schéma (ajout/suppression de table ou de colonne)
+  met **immédiatement** à jour `docs/modele-de-donnees.md` ; toute évolution du barème met à jour
+  `backend/util/odds.js` et `docs/cahier-des-charges.md`. Ces fichiers ne sont pas que de la doc : ils
+  sont la source de vérité **et** servent de contexte à l'outil d'admin local (qui les lit en direct) —
+  un doc périmé produit des conseils erronés.
 - **Conventions de nommage SQL** : tables en `camelCase` (`championBets`), colonnes en `snake_case`
   (`is_admin`, `created_at`). Booléens en `0/1`, dates en texte ISO 8601.
 - **Ne pas stocker ce qui se calcule** — sauf **snapshot** volontaire pour figer l'historique

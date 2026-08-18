@@ -7,6 +7,13 @@ export interface ReleaseNote {
 
 export const RELEASE_NOTES: ReleaseNote[] = [
   {
+    version: "1.0.2",
+    points: [
+      "La barre de navigation d'Android ne recouvre plus la barre d'onglets de l'application sur Android 15 et 16.",
+      "Correction de la hauteur du bandeau de titre sur Android 15 et 16."
+    ]
+  },
+  {
     version: "1.0.1",
     points: [
       "Correction de l'accord au pluriel (par ex. « 200 points » au lieu de « 200 pointss »).",
